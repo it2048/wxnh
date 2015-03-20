@@ -47,7 +47,7 @@ class UserController extends AdminSet
      */
     public function actionUpdateuesrs()
     {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         $ret = new Wxcore(Yii::app()->params['weixin']);
         $usr = new User();
         //以关注的用户更新内容
@@ -68,7 +68,7 @@ class UserController extends AdminSet
                 }
                 $usr->setIsNewRecord(TRUE);
             }
-            $msg['code'] = 0;
+            $this->msgsucc($msg);
         } catch (Exception $exc) {
                  $msg['msg'] = "微信端口连接错误";
         }
@@ -81,7 +81,7 @@ class UserController extends AdminSet
      */
     public function actionGetNewUser()
     {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         $ret = new Wxcore(Yii::app()->params['weixin']);
         $usr = User::model()->findAll(array('select' => 'open_id'));
         //存储所有的open_id
@@ -122,7 +122,7 @@ class UserController extends AdminSet
      */
     public function actionGetfrmwx()
     {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         $openid = Yii::app()->request->getParam('openid');
         if(!empty($openid))
         {
@@ -181,7 +181,7 @@ class UserController extends AdminSet
      */
     public function actionSave()
     {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         $open_id = Yii::app()->request->getParam('open_id');
         $name = Yii::app()->request->getParam('name');
         $gm_id = Yii::app()->request->getParam('gm_id');
@@ -240,7 +240,7 @@ class UserController extends AdminSet
      * 删除老列表，更新新分组列表
      */
     public function actionUpdateGrp() {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         try {
             $ret = new Wxcore(Yii::app()->params['weixin']);
             $group = $ret->getGroup();
@@ -282,7 +282,7 @@ class UserController extends AdminSet
      * 编辑分组
      */
     public function actionGrpSave() {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         $id = Yii::app()->getRequest()->getParam("id",-1); 
         $name = Yii::app()->getRequest()->getParam("name","");
         if(empty($name))
@@ -324,7 +324,7 @@ class UserController extends AdminSet
     }
     public function actionRefwx()
     {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         Yii::app()->redis->getClient()->del("access_token");
         $msg['code'] = 0;
         echo json_encode($msg);

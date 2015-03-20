@@ -18,13 +18,11 @@ class WeixinController extends CController{
          $this->layout = "//layouts/xml";
     }
 
-
     public function actionIndex()
     {
         $xmlName = "";
         //$GLOBALS['HTTP_RAW_POST_DATA'] = wxtestdata::$receive;
         $this->weixin = new Wxmessage(Yii::app()->params['weixin']);
-        
         //如果不为post则需要验证权限
         if (!Yii::app()->request->isPostRequest)
         {
@@ -33,7 +31,10 @@ class WeixinController extends CController{
             $timestamp = Yii::app()->request->getParam('timestamp');
             $nonce = Yii::app()->request->getParam('nonce');
             if($this->weixin->checkSignature($signature,$timestamp,$nonce))
-               echo $echostr;die();
+            {
+                echo $echostr;die();
+            }
+
         }
         else
         {

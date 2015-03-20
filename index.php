@@ -1,14 +1,10 @@
 <?php
-
-
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../yii/framework/yii.php';
 $config = array_merge(
     require_once(dirname(__FILE__) . '/protected/config/main.php'),
     require_once(dirname(__FILE__) . '/protected/config/custom.php')
 );
-
-
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 // specify how many levels of call stack should be shown in each log message

@@ -10,7 +10,7 @@
  *
  * @author 熊方磊 <xiongfanglei@kingsoft.com>
  */
-class MenuController extends WxadminController{
+class MenuController extends AdminSet{
     /**
 	 * 显示主页面
 	 */
@@ -45,7 +45,7 @@ class MenuController extends WxadminController{
 	 */
 	public function actionGet()
 	{
-            $msg = $this->msg;
+            $msg = $this->msgcode();
             $ret = new Wxcore(Yii::app()->params['weixin']);
             $bl = $ret->getMenu();
             if($bl)
@@ -101,7 +101,7 @@ class MenuController extends WxadminController{
 	 */
 	public function actionSet()
 	{
-            $msg = $this->msg;
+            $msg = $this->msgcode();
             $lsttp = Menu::model()->findAll();
             $models = array();
             //格式化成微信对应的格式
@@ -168,7 +168,7 @@ class MenuController extends WxadminController{
 	 */
 	public function actionMenuSave()
 	{
-            $msg = $this->msg;
+            $msg = $this->msgcode();
             $name = Yii::app()->request->getParam('name',"");
             $obj = Yii::app()->request->getParam('obj',"");
             $type = Yii::app()->request->getParam('type',"");
@@ -235,7 +235,7 @@ class MenuController extends WxadminController{
      */
     public function actionDel()
     {
-        $msg = $this->msg;
+        $msg = $this->msgcode();
         $name = Yii::app()->request->getParam('name',"");
         $name = urldecode($name);
          if(Menu::model()->deleteAll("name=:name or parent=:nm",array(":name"=>$name,":nm"=>$name))>0)

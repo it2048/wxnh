@@ -8,7 +8,7 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'微信自助平台',
-    'defaultController' => 'login',
+    'defaultController' => 'weixin',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -18,7 +18,8 @@ return array(
 		'application.models.*',
         'application.models.data.*',
 		'application.components.*',
-        'application.extensions.weixin.*'
+        'application.extensions.weixin.*',
+        'application.extensions.redis.*'
 	),
 
 	'modules'=>array(
@@ -52,6 +53,13 @@ return array(
 			'username' => 'kefu',
 			'password' => 'abcd1234',
 			'charset' => 'utf8'
-        )
+        ),
+        'redis' => array(
+            'class' => 'ext.redis.ARedisConnection',
+            "hostname" => "127.0.0.1",
+            "port" => 6379,
+            "database" => 1,
+            "prefix" => "Yii.redis."
+        ),
 	)
 );

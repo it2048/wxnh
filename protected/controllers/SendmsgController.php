@@ -10,7 +10,7 @@
  *
  * @author 熊方磊 <xiongfanglei@kingsoft.com>
  */
-class SendmsgController extends WxadminController{
+class SendmsgController extends AdminSet{
     //put your code here
     
     /**
@@ -107,7 +107,7 @@ class SendmsgController extends WxadminController{
      */
     public function actionSendUsr()
 	{
-            $msg = $this->msg;
+            $msg =$this->msgcode();
             $sendid = Yii::app()->getRequest()->getParam("open_id", ""); //发送的id
             $content = Yii::app()->getRequest()->getParam("content", ""); //发送的内容
             $ret = new Wxcore(Yii::app()->params['weixin']);
@@ -132,7 +132,7 @@ class SendmsgController extends WxadminController{
      */
     public function actionSendMe()
 	{
-            $msg = $this->msg;
+            $msg = $this->msgcode();
             $sendid = Yii::app()->getRequest()->getParam("open_id", ""); //发送的id
             $lst = Yii::app()->getRequest()->getParam("lst", ""); //最后的时间戳
             $tname = Yii::app()->getRequest()->getParam("tname", ""); //发送的内容
