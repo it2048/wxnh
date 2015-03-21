@@ -158,8 +158,8 @@ class UserController extends AdminSet
             $usr = new User();  
             //判断用户微信id是否存在
             $usrInfo = $usr->findByPk($openid);
-            //关注并且验证了邮件的人才可以编辑
-            if($usrInfo->subscribe==1&&$usrInfo->type==2)
+            //关注的人才可以编辑
+            if($usrInfo->subscribe==1)
             {
                 $grpList = Group::model()->findAll();
                  $this->renderPartial('update', array(
@@ -184,20 +184,20 @@ class UserController extends AdminSet
         $msg = $this->msgcode();
         $open_id = Yii::app()->request->getParam('open_id');
         $name = Yii::app()->request->getParam('name');
-        $gm_id = Yii::app()->request->getParam('gm_id');
         $employee_id = Yii::app()->request->getParam('employee_id');
         $group_id = Yii::app()->request->getParam('group_id');
         $tel = Yii::app()->request->getParam('tel');
+        $email = Yii::app()->request->getParam('email');
         if(!empty($open_id))
         {
             $ret = new Wxcore(Yii::app()->params['weixin']);
             $usr = new User();
             $postid = $usr->findByPk($open_id);
-            if($postid->subscribe==1&&$postid->type==2)
+            if($postid->subscribe==1)
             {
                 if(!empty($group_id)&&$postid['group_id']!=$group_id)
                     $ret->transGroup($open_id,$group_id);
-                 $usr->updateAll(array('name'=>$name,'gm_id'=>$gm_id,'employee_id'=>$employee_id,'group_id'=>$group_id,'tel'=>$tel),'open_id=:open_id',array(':open_id'=>$open_id));
+                 $usr->updateAll(array('name'=>$name,'employee_id'=>$employee_id,'email'=>$email,'group_id'=>$group_id,'tel'=>$tel),'open_id=:open_id',array(':open_id'=>$open_id));
                  $msg['code'] = 0;
             }
             else
@@ -208,8 +208,28 @@ class UserController extends AdminSet
         echo json_encode($msg);
         Yii::app()->end();
     }
-    
-    
+
+    /**
+     * 删除取消关注的人
+     */
+    public function actionDel()
+    {
+        $msg = $this->msgcode();
+        $open_id = Yii::app()->request->getParam('openid');
+        if(!empty($open_id))
+        {
+            if(User::model()->deleteByPk($open_id))
+            {
+                $this->msgsucc($msg);
+            }else{
+                $msg['code'] = '删除失败';
+            }
+        }
+        echo json_encode($msg);
+        Yii::app()->end();
+    }
+
+
    /**
     * 分组列表
     */

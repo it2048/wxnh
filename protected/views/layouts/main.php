@@ -63,7 +63,8 @@ $(function(){
 							<li><a>用户管理</a>
 								<ul>
                                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('admincontent/usermanager'); ?>" target="navTab" rel="usermaneger">管理员管理</a></li>
-									<li><a href="<?php echo Yii::app()->createAbsoluteUrl('user/index'); ?>" target="navTab" rel="userlist">用户列表</a></li>
+                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('employee/index'); ?>" target="navTab" rel="employee">员工管理</a></li>
+                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('user/index'); ?>" target="navTab" rel="userlist">用户列表</a></li>
                                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('user/group'); ?>" target="navTab" rel="grouplist">分组列表</a></li>
 								</ul>
 							</li>

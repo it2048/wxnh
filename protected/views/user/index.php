@@ -15,31 +15,34 @@
 	<table class="table" width="900" layoutH="76">
 		<thead>
 			<tr>
-				<th width="200">微信昵称</th>
-				<th width="180">分组名</th>
-                <th width="80">姓名</th>
+				<th width="100">微信昵称</th>
+				<th width="100">分组名</th>
+                <th width="120">姓名</th>
                 <th width="180">邮箱</th>
                 <th width="100">电话</th>
-                <th width="60">GM编号</th>
-                <th width="46" orderField="subscribe" class="desc">状态</th>
+                <th width="100">员工编号</th>
+                <th width="66" orderField="subscribe" class="desc">状态</th>
 				<th width="70">操作</th>
 			</tr>
 		</thead>
 		<tbody>
             <?php foreach ($usrList as $value) {?>
 			<tr id="<?php echo $value['open_id']; ?>">
-				<td><?php echo $value['nickname']; echo empty($value['name'])?"":"(".$value['name'].")"; ?></td>
+				<td><?php echo $value['nickname']; ?></td>
                 <td><?php echo empty($grpList[$value['group_id']])?"不存在":$grpList[$value['group_id']];?></td>
                 <td><?php echo $value['name'];?></td>
                 <td><?php echo $value['email'];?></td>
                 <td><?php echo $value['tel'];?></td>
-                <td><?php echo $value['gm_id'];?></td>
+                <td><?php echo $value['employee_id'];?></td>
                 <td><?php echo $value['subscribe']==1?"关注":"未关注";?></td>
 				<td>
 					<a title="同步微信数据" callback="updateUsr" target="ajaxTodo" href="<?php 
                     echo Yii::app()->createAbsoluteUrl('user/getfrmwx',array("openid"=>$value['open_id'])); ?>" class="btnView">同步微信数据</a>
-                    <?php if($value['subscribe']==1&& $value['type']==2) {?>
+                    <?php if($value['subscribe']==1) {?>
 					<a title="编辑" mask="true" height="320" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('user/update',array("openid"=>$value['open_id'])); ?>" class="btnEdit">编辑</a>
+                    <?php }?>
+                    <?php if($value['subscribe']==0) {?>
+                        <a title="删除" callback="updateUsr" target="ajaxTodo" href="<?php echo Yii::app()->createAbsoluteUrl('user/del',array("openid"=>$value['open_id'])); ?>" class="btnDel">删除</a>
                     <?php }?>
                 </td>
 			</tr>

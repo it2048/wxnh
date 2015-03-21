@@ -238,3 +238,31 @@ INSERT INTO `wx_user` (`id`, `open_id`, `group_id`, `nickname`, `tel`, `email`, 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- 表的结构 `wx_employee`
+--
+
+CREATE TABLE IF NOT EXISTS `wx_employee` (
+  `emp_id` varchar(64) NOT NULL COMMENT '员工编号',
+  `emp_name` varchar(64) DEFAULT NULL COMMENT '员工姓名',
+  `dep_id` varchar(64) DEFAULT NULL COMMENT '部门编号',
+  `dep_name` varchar(128) DEFAULT NULL COMMENT '部门名称',
+  `add` varchar(128) DEFAULT NULL COMMENT '地点',
+  `degree` varchar(64) DEFAULT NULL COMMENT '职位名称',
+  `emp_type` varchar(32) DEFAULT NULL COMMENT '员工类别',
+  `cid` varchar(64) DEFAULT NULL COMMENT '身份证号码',
+  `sex` int(11) DEFAULT NULL COMMENT '性别，1男2女',
+  `company` varchar(32) DEFAULT NULL COMMENT '公司名称',
+  `tel` varchar(32) DEFAULT NULL COMMENT '员工电话',
+  `email` varchar(64) DEFAULT NULL COMMENT '员工邮箱',
+  PRIMARY KEY (`emp_id`),
+  UNIQUE KEY `emp_id` (`emp_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
+
+--
+-- 转存表中的数据 `wx_employee`
+--
+
+INSERT INTO `wx_employee` (`emp_id`, `emp_name`, `dep_id`, `dep_name`, `add`, `degree`, `emp_type`, `cid`, `sex`, `company`, `tel`, `email`) VALUES
+('100035828', '熊方磊', '00800001', '研发', '孵化园', '餐厅经理', '经理', '429006199012120000', 1, '必胜客', '', '');

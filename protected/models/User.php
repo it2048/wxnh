@@ -7,11 +7,11 @@
  * @property integer $id
  * @property string $open_id
  * @property integer $group_id
+ * @property string $nickname
  * @property string $tel
  * @property string $email
  * @property integer $sex
  * @property string $name
- * @property string $gm_id
  * @property string $employee_id
  * @property string $city
  * @property string $province
@@ -48,14 +48,15 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('open_id, subscribe', 'required'),
+			array('open_id, subscribe_time, subscribe', 'required'),
 			array('group_id, sex, subscribe_time, subscribe, type', 'numerical', 'integerOnly'=>true),
 			array('open_id, email', 'length', 'max'=>64),
+			array('nickname', 'length', 'max'=>36),
 			array('tel, city, province', 'length', 'max'=>12),
-			array('name, gm_id, employee_id, country', 'length', 'max'=>32),
+			array('name, employee_id, country', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, open_id, group_id, tel, email, sex, name, gm_id, employee_id, city, province, country, subscribe_time, subscribe, type', 'safe', 'on'=>'search'),
+			array('id, open_id, group_id, nickname, tel, email, sex, name, employee_id, city, province, country, subscribe_time, subscribe, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,11 +80,11 @@ class User extends CActiveRecord
 			'id' => 'ID',
 			'open_id' => 'Open',
 			'group_id' => 'Group',
+			'nickname' => 'Nickname',
 			'tel' => 'Tel',
 			'email' => 'Email',
 			'sex' => 'Sex',
 			'name' => 'Name',
-			'gm_id' => 'Gm',
 			'employee_id' => 'Employee',
 			'city' => 'City',
 			'province' => 'Province',
@@ -108,11 +109,11 @@ class User extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('open_id',$this->open_id,true);
 		$criteria->compare('group_id',$this->group_id);
+		$criteria->compare('nickname',$this->nickname,true);
 		$criteria->compare('tel',$this->tel,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('sex',$this->sex);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('gm_id',$this->gm_id,true);
 		$criteria->compare('employee_id',$this->employee_id,true);
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('province',$this->province,true);
@@ -125,20 +126,30 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-    
+
     /**
      * 插入一行数据
      * @param string $openid 用户唯一微信编号
      */
     public function insertOne($openid){
-        
+
         //判断用户微信id是否存在
         $postid = $this->findByPk($openid);
         if(empty($postid->open_id))
         {
+            $ret = new Wxcore(Yii::app()->params['weixin']);
+            $usrList = $ret->getUsrinfo($openid);
+            $grp = $ret->getUsrgroup($openid);
+
             //新增记录
             $this->open_id = $openid;
-            $this->group_id = 0;
+            $this->nickname = $usrList['nickname'];
+            $this->sex = $usrList['sex'];
+            $this->city = $usrList['city'];
+            $this->province = $usrList['province'];
+            $this->country = $usrList['country'];
+
+            $this->group_id = $grp['groupid'];
             $this->type = 0;
             $this->subscribe = 1;
             $this->subscribe_time = time();
@@ -151,7 +162,7 @@ class User extends CActiveRecord
             return $postid->save()?true:false;
         }
     }
-	    /**
+    /**
      * 取消关注时
      * @param string $openid 用户唯一微信编号
      */
@@ -162,6 +173,6 @@ class User extends CActiveRecord
         $postid->subscribe = 0;
         $postid->type = 0;
         return $postid->save()?true:false;
-        
+
     }
 }
