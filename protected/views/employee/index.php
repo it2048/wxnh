@@ -30,10 +30,11 @@
             <th width="60">公司</th>
             <th width="100">地点</th>
             <th width="100">职务</th>
-            <th width="60">员工类别</th>
+            <th width="100">员工类别</th>
             <th width="60">性别</th>
             <th width="100">电话</th>
             <th width="100">邮箱</th>
+            <th width="100">验证状态</th>
             <th width="100">编辑</th>
         </tr>
         </thead>
@@ -50,7 +51,7 @@
                 <td><?php echo $value['sex']==2?"女":"男"; ?></td>
                 <td><?php echo $value['tel']; ?></td>
                 <td><?php echo $value['email']; ?></td>
-
+                <td><?php echo $value['subscribe']==1?"已关注":"<span style='color:red;'>未关注</span>";?></td>
                 <td>
                     <a title="确实要删除这条记录吗?" callback="deleteAuCall" target="ajaxTodo" href="<?php echo Yii::app()->createAbsoluteUrl('employee/del',array('emp_id'=>$value['emp_id'])); ?>" class="btnDel">删除</a>
                     <a title="编辑" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('employee/edit',array('emp_id'=>$value['emp_id'])); ?>" class="btnEdit">编辑</a>

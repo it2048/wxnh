@@ -24,17 +24,18 @@ class UserController extends AdminSet
         
         //构造SQL
         $criteria = new CDbCriteria;
-        $criteria->limit = $pages['numPerPage'];
-        $criteria->offset = $pages['numPerPage'] * ($pages['pageNum'] - 1);
-        $criteria->order = $pages['orderField'].$pages['orderDirection'];
         if (empty($pages['countPage']))
             $pages['countPage'] = User::model()->count($criteria);
-        $usrList = User::model()->findAll($criteria);
         $group = Group::model()->findAll();
         $grpList = array();
         foreach ($group as $value) {
             $grpList[$value['id']] = $value['name'];
         }
+        $connection = Yii::app()->db;
+        $sql = sprintf("SELECT b.*,a.emp_name FROM wx_user b left join wx_employee a on a.emp_id = b.employee_id limit %d,%d",
+            $pages['numPerPage'] * ($pages['pageNum'] - 1),$pages['numPerPage']); //构造SQL
+
+        $usrList = $connection->createCommand($sql)->queryAll();
         $this->renderPartial('index', array(
             'usrList' => $usrList,
             'pages' => $pages,

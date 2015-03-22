@@ -125,6 +125,10 @@ class WxEmployee extends CActiveRecord
      */
     public function storeCsv($loadPath)
     {
+
+        $connection = Yii::app()->db;
+        $sql = sprintf("INSERT INTO %s(`emp_id`, `emp_name`, `dep_id`, `dep_name`,`company`,`add`, `degree`, `emp_type`, `cid`, `sex`, `tel`, `email`) VALUES",$this->tableName()); //构造SQL
+
         $this->deleteAll();
         $file_handle = fopen($loadPath, "r");
         fgets($file_handle);
@@ -134,34 +138,28 @@ class WxEmployee extends CActiveRecord
             if(trim($line)!="")
             {
                 $arr = explode(",",$line);
-                $tmp = new WxEmployee();
                 if(isset($arr[9])&&!empty($arr[0]))
                 {
                     foreach($arr as $k=>$val)
                     {
                         $arr[$k] = trim(iconv("GBK","UTF-8//IGNORE", $val));
                     }
-
-                    $tmp->emp_id = $arr[0];
-                    $tmp->emp_name = $arr[1];
-                    $tmp->dep_id = $arr[2];
-                    $tmp->dep_name = $arr[3];
-                    $tmp->company = $arr[4];
-                    $tmp->add = $arr[5];
-                    $tmp->degree = $arr[6];
-                    $tmp->emp_type = $arr[7];
-                    $tmp->cid = $arr[8];
-                    $tmp->sex = $arr[9]=='男'?1:2;
-                    $tmp->tel = empty($arr[10])?"":$arr[10];
-                    $tmp->email = empty($arr[11])?"":$arr[11];
-                    if(!$tmp->save())
-                    {
-                        $str .= $arr[0].",";
-                    }
+                    $str .= sprintf("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'),",
+                        $arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],
+                    $arr[6],$arr[7],$arr[8],$arr[9]=='男'?1:2,
+                        empty($arr[10])?"":$arr[10],empty($arr[11])?"":$arr[11]);
                 }
             }
         }
         fclose($file_handle);
-        return  empty($str)?"全部更新成功":$str."更新失败";
+        if(empty($str))
+        {
+            return "更新数据失败";
+        }
+        else{
+            $sql .= rtrim($str,",");
+            $sqlCom = $connection->createCommand($sql)->execute();
+            return  "添加数据成功";
+        }
     }
 }

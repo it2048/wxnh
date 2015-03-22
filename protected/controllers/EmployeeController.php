@@ -25,10 +25,15 @@ class EmployeeController extends AdminSet
 
         $criteria = new CDbCriteria;
         !empty($pages['name'])&&$criteria->compare('emp_name', $pages['name']);
-        $pages['countPage'] = WxAdmin::model()->count($criteria);
-        $criteria->limit = $pages['numPerPage'];
-        $criteria->offset = $pages['numPerPage'] * ($pages['pageNum'] - 1);
-        $allList = WxEmployee::model()->findAll($criteria);
+        $pages['countPage'] = WxEmployee::model()->count($criteria);
+
+        $and = empty($pages['name'])?"":" AND emp_name='{$pages['name']}'";
+        $connection = Yii::app()->db;
+        $sql = sprintf("SELECT a.*,b.subscribe,b.type FROM wx_employee a left join wx_user b on a.emp_id = b.employee_id WHERE 1 %s limit %d,%d",
+            $and,$pages['numPerPage'] * ($pages['pageNum'] - 1),$pages['numPerPage']); //构造SQL
+
+        $allList = $connection->createCommand($sql)->queryAll();
+
         $this->renderPartial('index', array(
             'models' => $allList,
             'pages' => $pages),false,true);
@@ -74,6 +79,23 @@ class EmployeeController extends AdminSet
             }
         }
         echo json_encode($msg);
+    }
+
+    public function actionDel()
+    {
+        $msg = $this->msgcode();
+        $open_id = Yii::app()->request->getParam('emp_id');
+        if(!empty($open_id))
+        {
+            if(WxEmployee::model()->deleteByPk($open_id))
+            {
+                $this->msgsucc($msg);
+            }else{
+                $msg['code'] = '删除失败';
+            }
+        }
+        echo json_encode($msg);
+        Yii::app()->end();
     }
 
 }
