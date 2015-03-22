@@ -54,7 +54,6 @@
                 <td><?php echo $value['subscribe']==1?"已关注":"<span style='color:red;'>未关注</span>";?></td>
                 <td>
                     <a title="确实要删除这条记录吗?" callback="deleteAuCall" target="ajaxTodo" href="<?php echo Yii::app()->createAbsoluteUrl('employee/del',array('emp_id'=>$value['emp_id'])); ?>" class="btnDel">删除</a>
-                    <a title="编辑" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('employee/edit',array('emp_id'=>$value['emp_id'])); ?>" class="btnEdit">编辑</a>
                 </td>
             </tr>
         <?php }?>

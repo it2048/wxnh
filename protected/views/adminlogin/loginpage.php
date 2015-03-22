@@ -11,7 +11,7 @@
         <div id="login">
             <div id="login_header">
                 <h1 class="login_logo">
-                    <a href="#"><img src="<?php echo $baseUrl; ?>/default/images/login_logo.gif" /></a>
+                    <a href="#"></a>
                 </h1>
                 <div class="login_headerContent">
                     <div class="navList">
@@ -41,7 +41,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="login_banner"><img src="<?php echo $baseUrl; ?>/default/images/login_banner.jpg" /></div>
+                <div class="login_banner"></div>
                 <div class="login_main">
                     <ul class="helpList">
                         <li><a href="#" onclick="alert('请找管理员');">忘记密码怎么办？</a></li>
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div id="login_footer">
-                Copyright &copy; 吉祥甘孜后台.由  四川爱力克思科技有限公司  提供技术支持
+                Copyright &copy; 由  xfl  提供技术支持
             </div>
         </div>
     </body>

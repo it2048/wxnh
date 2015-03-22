@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>成都西山居微信公众号管理平台</title>
+<title>微信公众号管理平台</title>
 
 <link href="<?php $baseUrl =  Yii::app()->baseUrl."/public/"; echo $baseUrl; ?>default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="<?php echo $baseUrl; ?>css/core.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -33,7 +33,6 @@ $(function(){
 	<div id="layout">
 		<div id="header">
             <div class="headerNav">
-                <a class="logo" href="#"><?php echo Yii::app()->name;?></a>
                 <ul class="nav">
                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('admincontent/usernewpass'); ?>" target="dialog" width="600">设置</a></li>
                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('adminlogin/index'); ?>" target="_blank">首页</a></li>
@@ -107,7 +106,7 @@ $(function(){
                                 </h1>
                             </div>
                             <div class="pageFormContent" layoutH="80" style="margin-left: 230px;">
-                                成都西山居微信公众号管理平台<br /><br />
+                                微信公众号管理平台<br /><br />
                                 <ul>
                                     <li>1、用户管理；</li>
                                     <li>ps、由于微信接口有次数限制，分组管理只能在微信管理页面进行，地址: <a href="https://mp.weixin.qq.com" target="_blank"> https://mp.weixin.qq.com</a>；</li>
@@ -120,6 +119,6 @@ $(function(){
 
 	</div>
 
-	<div id="footer">Copyright &copy; 金山客服中心技术支持组.</div>
+	<div id="footer">Copyright &copy; xfl.</div>
 </body>
 </html>
