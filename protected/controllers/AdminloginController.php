@@ -32,6 +32,22 @@ class AdminloginController extends Controller
         }
         echo json_encode($msg);
     }
+
+    public function actionDemo()
+    {
+        $msg = $this->msgcode();
+        $tel = '18780588758';
+        $content = '测试短信发送延时时长，测试号码 18228041350';
+        $con = new Sms();
+
+        if($con->sendSMS($tel,$content))
+            $this->msgsucc($msg);
+        else
+            $msg['msg'] = '发送短信出错';
+        echo json_encode($msg);
+
+    }
+
     /**
      * 生成首页
      * 

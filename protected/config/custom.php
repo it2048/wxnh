@@ -24,7 +24,12 @@ return array(
             "ojotVuPQPNhSLbMBLP3TUWK_vdFs",
             "ojotVuAnqvI6_V8aSYYphXlXOSag",
         ),
-        'wxid' => 'gh_9c30e2e5d5ec'
+        'wxid' => '',
+        'sms' => array(
+            "username"=>"",
+            "password"=>"",
+            "url"=>"http://www.go028.cn:888/sdk/service.asmx/sendMessage"
+        ),
 
     )
 );
