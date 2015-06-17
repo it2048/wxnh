@@ -26,7 +26,7 @@
 		</dl>
         <dl class="nowrap">
 			<dt>添加微信菜单：</dt>
-			<a href="<?php echo Yii::app()->createAbsoluteUrl('menu/update');?>" target="dialog">添加菜单</a>
+            <div class="buttonActive"><a class="buttonContent" href="<?php echo Yii::app()->createAbsoluteUrl('menu/update');?>" target="dialog">添加菜单</a>
 		</dl>
         <dl class="nowrap">
 			<dt>应用：</dt>

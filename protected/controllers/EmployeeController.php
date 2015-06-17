@@ -24,15 +24,13 @@ class EmployeeController extends AdminSet
         $pages['name'] = Yii::app()->getRequest()->getParam("name",""); //按名称查询
 
         $criteria = new CDbCriteria;
-        !empty($pages['name'])&&$criteria->compare('emp_name', $pages['name']);
-        $pages['countPage'] = WxEmployee::model()->count($criteria);
+        !empty($pages['name'])&&$criteria->compare('employee_name', $pages['name']);
+        $pages['countPage'] = WxNewEmployee::model()->count($criteria);
 
-        $and = empty($pages['name'])?"":" AND emp_name='{$pages['name']}'";
-        $connection = Yii::app()->db;
-        $sql = sprintf("SELECT a.*,b.subscribe,b.type FROM wx_employee a left join wx_user b on a.emp_id = b.employee_id WHERE 1 %s limit %d,%d",
-            $and,$pages['numPerPage'] * ($pages['pageNum'] - 1),$pages['numPerPage']); //构造SQL
-
-        $allList = $connection->createCommand($sql)->queryAll();
+        $criteria->limit = $pages['numPerPage'];
+        $criteria->offset = $pages['numPerPage'] * ($pages['pageNum'] - 1);
+        $criteria->order = 'id DESC';
+        $allList = WxNewEmployee::model()->findAll($criteria);
 
         $this->renderPartial('index', array(
             'models' => $allList,
@@ -55,9 +53,9 @@ class EmployeeController extends AdminSet
             $_tmp_pathinfo = pathinfo($_FILES['obj']['name']);
 
 
-            if ($_tmp_pathinfo['extension']=="csv") {
+            if (strtolower($_tmp_pathinfo['extension'])=="csv") {
                 //设置文件路径
-                $flname = "upload/".time().".".$_tmp_pathinfo['extension'];
+                $flname = "upload/".time().".".strtolower($_tmp_pathinfo['extension']);
                 $dest_file_path = Yii::app()->basePath . '/../public/'.$flname;
                 $filepathh = dirname($dest_file_path);
                 if (!file_exists($filepathh))
@@ -67,7 +65,7 @@ class EmployeeController extends AdminSet
                 if ($b_mkdir && is_dir($filepathh)) {
                     //转存文件到 $dest_file_path路径
                     if (move_uploaded_file($_FILES['obj']['tmp_name'], $dest_file_path)) {
-                        $msg["msg"] = WxEmployee::model()->storeCsv($dest_file_path);
+                        $msg["msg"] = WxNewEmployee::model()->storeCsv($dest_file_path);
                         $msg["code"] = 0;
                         unlink($dest_file_path);
                     } else {
