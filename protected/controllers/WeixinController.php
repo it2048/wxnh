@@ -111,7 +111,7 @@ class WeixinController extends CController{
             $usr = new User();
             $openid = $this->weixin->_postData->FromUserName."";
             $lst = $usr->findByPk($openid);
-            if($lst->type==2&&!empty($lst->tel))
+            if(!empty($lst->tel))
             {
                 $xml = $this->weixin->outputText("您已验证通过，请点击查询按钮");
             }else
