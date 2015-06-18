@@ -22,7 +22,6 @@
                 <th width="100">电话</th>
                 <th width="100">员工编号</th>
                 <th width="66">状态</th>
-                <th width="100">是否在职</th>
 				<th width="70">操作</th>
 			</tr>
 		</thead>
@@ -36,7 +35,6 @@
                 <td><?php echo $value['tel'];?></td>
                 <td><?php echo $value['employee_id'];?></td>
                 <td><?php echo $value['subscribe']==1?"关注":"未关注";?></td>
-                <td><?php echo empty($value['emp_name'])?"<span style='color:red;'>离职</span>":"在职";?></td>
 				<td>
 					<a title="同步微信数据" callback="updateUsr" target="ajaxTodo" href="<?php 
                     echo Yii::app()->createAbsoluteUrl('user/getfrmwx',array("openid"=>$value['open_id'])); ?>" class="btnView">同步微信数据</a>

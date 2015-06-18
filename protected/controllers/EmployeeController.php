@@ -82,10 +82,10 @@ class EmployeeController extends AdminSet
     public function actionDel()
     {
         $msg = $this->msgcode();
-        $open_id = Yii::app()->request->getParam('emp_id');
+        $open_id = Yii::app()->request->getParam('id');
         if(!empty($open_id))
         {
-            if(WxEmployee::model()->deleteByPk($open_id))
+            if(WxNewEmployee::model()->deleteByPk($open_id))
             {
                 $this->msgsucc($msg);
             }else{

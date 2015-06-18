@@ -106,22 +106,37 @@ class WeixinController extends CController{
      */
     private function exeClick()
     {
-        if("emp_blind"==$this->weixin->_postData->EventKey)
+        if("emp_tel"==$this->weixin->_postData->EventKey)
         {
             $usr = new User();
             $openid = $this->weixin->_postData->FromUserName."";
             $lst = $usr->findByPk($openid);
-            if($lst->type==2&&!empty($lst->employee_id))
+            if($lst->type==2&&!empty($lst->tel))
             {
-                $xml = $this->weixin->outputText("您已验证通过，不需要再次验证");
+                $xml = $this->weixin->outputText("您已验证通过，请点击查询按钮");
             }else
             {
                 $rds = Yii::app()->redis->getClient();
                 $rds->del($openid);
-                $rds->del($openid."tel");
-                $rds->del($openid."ext");
-                $xml = $this->weixin->outputText("请输入您的手机号或者身份证号");
+                $xml = $this->weixin->outputText("请输入您简历上所填写的手机号，提交后不能更改");
                 $rds->setex($openid,600,1);
+            }
+        }elseif("emp-ms"==$this->weixin->_postData->EventKey)
+        {
+            $openid = $this->weixin->_postData->FromUserName."";
+            $lst = User::model()->findByPk($openid);
+            $mel = WxNewEmployee::model()->findAll("tel=:tl",array(":tl"=>$lst->tel));
+            if(empty($mel))
+            {
+                $xml = $this->weixin->outputText("抱歉，未查到您的面试信息");
+            }else
+            {
+                $str = "";
+                foreach($mel as $val)
+                {
+                    $str .= sprintf("姓名：%s,面试职位：%s，当前状态：%s \r\n",$val->employee_name,$val->empty_name,$val->stage);
+                }
+                $xml = $this->weixin->outputText($str);
             }
         }
         return $xml;
@@ -179,98 +194,29 @@ class WeixinController extends CController{
         $rds = Yii::app()->redis->getClient();
         $tmp = $rds->get($openid); //状态机
         //状态机为0-3标识处于 输入邮箱阶段
-        if ($tmp > 0 && $tmp <= 3) {
-            //验证电话或者身份证格式，当然还需要验证邮件是否发送成功
-            $len = strlen($str);
-            if ($len==11||$len==18) {
-                file_put_contents('d:/t.log',$str."\r\n",8);
-                $model = WxEmployee::model()->find("tel=:tel or cid=:cd",array(":tel"=>$str,":cd"=>$str));
-                if(empty($model)||empty($model->tel))
+        if ($tmp >= 1&&$tmp<=3) {
+            if(CheckInfo::phone($str))
+            {
+                $pl = User::model()->find("open_id='{$openid}'");
+                if(!empty($pl)&&empty($pl->tel))
                 {
-                    $xml = $this->weixin->outputText("您非内部员工，无法验证！");
-                    if (++$tmp == 4) {
+                    $pl->tel = $str;
+                    if($pl->save())
+                    {
+                        $xml = $this->weixin->outputText("绑定电话成功！查询面试结果吧");
                         $rds->del($openid);
-                    } else {
-                        $rds->setex($openid, 600, $tmp);
                     }
                 }
-                else{
-
-                    $pl = User::model()->find("employee_id='{$model->emp_id}'");
-                    if(!empty($pl)&&$pl->type==2)
-                    {
-                        $xml = $this->weixin->outputText("改号码已被绑定，请重试");
-                        if (++$tmp == 4) {
-                            $rds->del($openid);
-                        } else {
-                            $rds->setex($openid, 600, $tmp);
-                        }
-                    }else{
-                        $ext = $this->get_password(4); //随机码
-                        $rds->setex($openid, 600, 4);
-                        //这里保证Email与ext同时存在
-                        $rds->setex($openid . "tel", 600, $str); //缓存邮箱
-                        $rds->setex($openid . "ext", 600, $ext); //缓存随机码
-                        $this->sendMsg($model->tel,$ext);
-                        $xml = $this->weixin->outputText("验证码已发送至您的手机，请回复验证码完成绑定！（若5分钟内未收到验证码请重新点击\"员工绑定\"菜单）");
-                    }
-                }
-            } else {
-                //状态机超过容错次数就会置空redis缓存
-                if (++$tmp == 4) {
-                    $rds->del($openid);
-                    $xml = $this->weixin->outputText("输入格式错误，请重新点击“验证”菜单");
-                } else {
-                    $rds->setex($openid, 600, $tmp);
-                    $xml = $this->weixin->outputText("输入格式错误，请重新输入，还有" . (4 - $tmp) . "次机会");
-                }
+            }else
+            {
+                $xml = $this->weixin->outputText("号码格式错误，请重新输入");
+                $tmp++;
+                $rds->setex($openid, 600, $tmp);
             }
-        } else if ($tmp > 3 && $tmp <= 6) { //状态机为4-6标识处于输入验证码阶段
-            $ext = $rds->get($openid . "ext");
-            if (!empty($ext) && $str == $ext) {
-
-                $tel = $rds->get($openid."tel");
-                $model = WxEmployee::model()->find("tel=:tel or cid=:cd",array(":tel"=>$tel,":cd"=>$tel));
-                if(!empty($model))
-                {
-                    $user = new User();
-                    //判断用户微信id是否存在
-                    $postid = $user->findByPk($openid);
-                    //更新记录
-                    $postid->tel = $model->tel;
-                    $postid->email = $model->email;
-                    $postid->type = 2;
-                    $postid->name = $model->emp_name;
-                    $postid->employee_id = $model->emp_id;
-                    if($postid->save())
-                    {
-                        $rds->del($openid);
-                        $rds->del($openid . "tel");
-                        $rds->del($openid . "ext");
-                        $xml = $this->weixin->outputText("验证成功");
-                    }else
-                    {
-                        file_put_contents('d:/t.log',print_r($postid->getErrors(),true),8);
-                        $xml = $this->weixin->outputText("验证超时");
-                    }
-
-                }else
-                {
-                    $xml = $this->weixin->outputText("非内部员工，验证失败");
-                }
-            } else {
-                //状态机超过容错次数就会置空redis缓存
-                if (++$tmp >= 7) {
-                    $rds->del($openid);
-                    $rds->del($openid . "tel");
-                    $rds->del($openid . "ext");
-                    $xml = $this->weixin->outputText("验证码输入错误次数过多，请重新点击“验证邮箱”菜单");
-                } else {
-                    //这里要保证openid，Eamil与ext的缓存时间一致
-                    $rds->setex($openid, $rds->ttl($openid), $tmp);
-                    $xml = $this->weixin->outputText("验证码错误，请重新输入，还有" . (7 - $tmp) . "次机会");
-                }
-            }
+        }elseif($tmp>3)
+        {
+            $xml = $this->weixin->outputText("号码格式错误次数过多，请重新点击绑定菜单");
+            $rds->del($openid);
         }
         return $xml;
     }
