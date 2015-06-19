@@ -32,7 +32,7 @@ class MailCommand extends CConsoleCommand
                 $em = new WxNewEmployee();
                 echo "解析文件中……\r\n";
                 echo $em->storeCsv($filename);
-                unset($filename);
+                @unlink($filename);
                 break;
             }
         }

@@ -187,7 +187,6 @@ class WxNewEmployee extends CActiveRecord
             $sql .= rtrim($str,",");
             $sqlCom = $connection->createCommand($sql)->execute();
             Homeconf::model()->updateByPk("csv",array('value'=>date('Y-m-d')));
-            unset($loadPath);
             return  "添加数据成功";
         }
     }
