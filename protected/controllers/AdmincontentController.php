@@ -8,7 +8,8 @@ class AdmincontentController extends AdminSet
      */
     public function actionIndex()
     {
-        $this->render('index');
+        $data = Homeconf::model()->findByPk('csv');
+        $this->render('index',array('csv'=>$data->value));
     }
 
     public function actionLogout()
@@ -145,6 +146,7 @@ class AdmincontentController extends AdminSet
         $password = Yii::app()->getRequest()->getParam("password", ""); //用户名
         $tel = Yii::app()->getRequest()->getParam("tel", ""); //用户名
         $email = Yii::app()->getRequest()->getParam("email", ""); //用户名
+        $name = Yii::app()->getRequest()->getParam("name", ""); //用户名
 
         if($username===""||$password==="")
         {
@@ -152,6 +154,7 @@ class AdmincontentController extends AdminSet
         }else{
             $rsAdmin = new WxAdmin();
             $rsAdmin->username = $username;
+            $rsAdmin->name = $name;
             $rsAdmin->password = md5($password);
             $rsAdmin->email = $email;
             $rsAdmin->tel = $tel;
@@ -175,6 +178,7 @@ class AdmincontentController extends AdminSet
         $password = Yii::app()->getRequest()->getParam("password", ""); //用户名
         $tel = Yii::app()->getRequest()->getParam("tel", ""); //用户名
         $email = Yii::app()->getRequest()->getParam("email", ""); //用户名
+        $name = Yii::app()->getRequest()->getParam("name", ""); //用户名
 
         if($username==="")
         {
@@ -185,6 +189,7 @@ class AdmincontentController extends AdminSet
                 $rsAdmin->password = md5($password);
             $rsAdmin->email = $email;
             $rsAdmin->tel = $tel;
+            $rsAdmin->name = $name;
             if($rsAdmin->save())
             {
                 $this->msgsucc($msg);

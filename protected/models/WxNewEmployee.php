@@ -19,6 +19,8 @@
  * @property string $stage
  * @property string $tel
  * @property string $email
+ * @property string $am_name
+ * @property string $am_id
  */
 class WxNewEmployee extends CActiveRecord
 {
@@ -51,13 +53,13 @@ class WxNewEmployee extends CActiveRecord
 			array('empty_no', 'length', 'max'=>36),
 			array('empty_name', 'length', 'max'=>128),
 			array('employee_name, email', 'length', 'max'=>32),
-			array('employee_type, employee_source, employee_brand, hr_boss', 'length', 'max'=>45),
+			array('employee_type, employee_source, employee_brand, hr_boss, am_name, am_id', 'length', 'max'=>45),
 			array('employee_degree', 'length', 'max'=>8),
 			array('hr_market, province, city, stage', 'length', 'max'=>16),
 			array('tel', 'length', 'max'=>26),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, empty_no, empty_name, employee_name, employee_type, employee_source, employee_degree, employee_brand, hr_market, hr_boss, province, city, stage, tel, email', 'safe', 'on'=>'search'),
+			array('id, empty_no, empty_name, employee_name, employee_type, employee_source, employee_degree, employee_brand, hr_market, hr_boss, province, city, stage, tel, email, am_name, am_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +95,8 @@ class WxNewEmployee extends CActiveRecord
 			'stage' => 'Stage',
 			'tel' => 'Tel',
 			'email' => 'Email',
+			'am_name' => 'Am Name',
+			'am_id' => 'Am',
 		);
 	}
 
@@ -122,6 +126,8 @@ class WxNewEmployee extends CActiveRecord
 		$criteria->compare('stage',$this->stage,true);
 		$criteria->compare('tel',$this->tel,true);
 		$criteria->compare('email',$this->email,true);
+		$criteria->compare('am_name',$this->am_name,true);
+		$criteria->compare('am_id',$this->am_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -141,26 +147,35 @@ class WxNewEmployee extends CActiveRecord
         $sql = sprintf("INSERT INTO %s(`empty_no`, `empty_name`, `employee_name`,
 `employee_type`,`employee_source`,`employee_degree`,
 `employee_brand`, `hr_market`, `hr_boss`, `province`,
- `city`, `stage`, `tel`, `email`) VALUES",$this->tableName()); //构造SQL
+ `city`, `stage`, `tel`, `email`, `am_name`, `am_id`) VALUES",$this->tableName()); //构造SQL
 
         $this->deleteAll();
         $file_handle = fopen($loadPath, "r");
+
+        $bom = fread($file_handle, 2);
+        rewind($file_handle);
+        if($bom === chr(0xff).chr(0xfe)  || $bom === chr(0xfe).chr(0xff)){
+            $encoding = 'UTF-16';
+            stream_filter_append($file_handle,'convert.iconv.'.$encoding.'/UTF-8');
+        }
         fgets($file_handle);
         $str = "";
         while (!feof($file_handle)) {
-            $arr = fgetcsv($file_handle);
+            $strq = trim(fgets($file_handle));
+            $arr = explode("\t",$strq);
             $tmpa = trim($arr[0]);
-            if(isset($arr[34])&&!empty($tmpa))
+
+            if(isset($arr[34])&&!empty($tmpa)&&$arr[12]!='"不合格简历"')
             {
                 foreach($arr as $k=>$val)
                 {
-                    $arr[$k] = trim(iconv("GBK","UTF-8//IGNORE", $val));
+                    $arr[$k] = str_replace(array("'",'"'),"",$val);
                 }
-                $str .= sprintf("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'),",
+                $str .= sprintf("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'),",
                     $arr[0],$arr[1],$arr[2].$arr[3],$arr[4],$arr[5],
-                    $arr[6],$arr[7],$arr[8],$arr[9],$arr[10],$arr[11],$arr[12],$arr[31],$arr[32]);
-
+                    $arr[6],$arr[7],$arr[8],$arr[9],$arr[10],$arr[11],$arr[12],$arr[31],$arr[32],$arr[33],$arr[34]);
             }
+
         }
         fclose($file_handle);
         unset($loadPath);
@@ -170,8 +185,9 @@ class WxNewEmployee extends CActiveRecord
         }
         else{
             $sql .= rtrim($str,",");
-            file_put_contents('d:/t.log',$sql,8);
             $sqlCom = $connection->createCommand($sql)->execute();
+            Homeconf::model()->updateByPk("csv",array('value'=>date('Y-m-d')));
+            unset($loadPath);
             return  "添加数据成功";
         }
     }

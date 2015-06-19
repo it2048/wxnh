@@ -8,6 +8,7 @@
  * @property string $password
  * @property string $tel
  * @property string $email
+ * @property string $name
  */
 class WxAdmin extends CActiveRecord
 {
@@ -40,10 +41,10 @@ class WxAdmin extends CActiveRecord
 			array('username, password', 'required'),
 			array('username', 'length', 'max'=>24),
 			array('password, email', 'length', 'max'=>32),
-			array('tel', 'length', 'max'=>16),
+			array('tel, name', 'length', 'max'=>16),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('username, password, tel, email', 'safe', 'on'=>'search'),
+			array('username, password, tel, email, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +69,7 @@ class WxAdmin extends CActiveRecord
 			'password' => 'Password',
 			'tel' => 'Tel',
 			'email' => 'Email',
+			'name' => 'Name',
 		);
 	}
 
@@ -86,6 +88,7 @@ class WxAdmin extends CActiveRecord
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('tel',$this->tel,true);
 		$criteria->compare('email',$this->email,true);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

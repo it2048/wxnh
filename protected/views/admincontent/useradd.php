@@ -6,6 +6,10 @@
                 <input  name="username" type="text" class="required textInput" size="30" value="">
             </p>
             <p>
+                <label>姓名：</label>
+                <input  name="name" type="text" class="required textInput" size="30" value="">
+            </p>
+            <p>
                 <label>密码：</label>
                 <input type="password" id="cp_password" name="password" size="30" minlength="6" maxlength="20" class="required alphanumeric textInput valid">
             </p>

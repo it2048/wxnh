@@ -25,6 +25,7 @@
         <thead>
         <tr>
             <th width="100">用户名</th>
+            <th width="160">姓名</th>
             <th width="200">电话</th>
             <th width="200">邮箱</th>
             <th width="160">编辑</th>
@@ -34,6 +35,7 @@
         <?php foreach ($models as $value) {?>
             <tr>
                 <td><?php echo $value['username']; ?></td>
+                <td><?php echo $value['name']; ?></td>
                 <td><?php echo $value['tel']; ?></td>
                 <td><?php echo $value['email']; ?></td>
                 <td>

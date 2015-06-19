@@ -108,6 +108,7 @@ $(function(){
                             <div class="pageFormContent" layoutH="80" style="margin-left: 230px;">
                                 微信公众号管理平台<br /><br />
                                 <ul>
+                                    <li><?php echo $content;?></li><br /><br />
                                     <li>1、用户管理；</li>
                                     <li>ps、由于微信接口有次数限制，分组管理只能在微信管理页面进行，地址: <a href="https://mp.weixin.qq.com" target="_blank"> https://mp.weixin.qq.com</a>；</li>
                                 </ul>
