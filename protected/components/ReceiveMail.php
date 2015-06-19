@@ -67,7 +67,6 @@ class ReceiveMail
         {
             $mail_details=array(
                 'from'=>strtolower($sender->mailbox).'@'.$sender->host,
-                'fromName'=>$sender->personal,
                 'toOth'=>strtolower($sender_replyto->mailbox).'@'.$sender_replyto->host,
                 'toNameOth'=>$sender_replyto->personal,
                 'subject'=>$mail_header->subject,
