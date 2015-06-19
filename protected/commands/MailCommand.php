@@ -24,13 +24,13 @@ class MailCommand extends CConsoleCommand
                 $str=$obj->GetAttach($i,""); // Get attached File from Mail Return name of file in comma separated string  args. (mailid, Path to store file)
                 preg_match_all ('/<a href=\"(.*?)\".*?>(.*?)<\/a>/i',$str,$matches);
                 $url = $matches[1][1];
-                echo mb_convert_encoding("下载文件中……\r\n","GBK", "UTF8");
+                echo "下载文件中……\r\n";
                 $content = file_get_contents($url);
-                echo mb_convert_encoding("存储文件中……\r\n","GBK", "UTF8");
+                echo "存储文件中……\r\n";
                 $filename =  Yii::app()->basePath . '/../public/csv/'.date('Ymd').'.csv';
                 file_put_contents($filename,$content);
                 $em = new WxNewEmployee();
-                echo mb_convert_encoding("解析文件中……\r\n","GBK", "UTF8");
+                echo "解析文件中……\r\n";
                 echo $em->storeCsv($filename);
                 unset($filename);
                 break;
