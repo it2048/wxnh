@@ -15,7 +15,7 @@ class MailCommand extends CConsoleCommand
         $obj->connect();         //If connection fails give error message and exit
         $tot=$obj->getTotalMails(); //Total Mails in Inbox Return integer value
 
-        $mailH = '277253251@qq.com';
+        $mailH = 'datainsighttool@brassring.com';
         for($i=$tot;$i>0;$i--)
         {
             $head=$obj->getHeaders($i);  // Get Header Info Return Array Of Headers **Array Keys are (subject,to,toOth,toNameOth,from,fromName)
