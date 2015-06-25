@@ -13,7 +13,7 @@
 <script src="<?php echo $baseUrl; ?>js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>js/dwz.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>js/jquery.validate.min.js" type="text/javascript"></script>
-
+    <script src="<?php echo $baseUrl; ?>js/dwz.regional.zh.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
 	DWZ.init("<?php echo $baseUrl; ?>dwz.frag.xml", {
@@ -65,10 +65,12 @@ $(function(){
                                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('employee/index'); ?>" target="navTab" rel="employee">员工管理</a></li>
                                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('user/index'); ?>" target="navTab" rel="userlist">用户列表</a></li>
                                     <li><a href="<?php echo Yii::app()->createAbsoluteUrl('user/group'); ?>" target="navTab" rel="grouplist">分组列表</a></li>
-								</ul>
+                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('adminint/index'); ?>" target="navTab" rel="mzmlist">招募计划管理</a></li>
+                                </ul>
 							</li>
                             <li><a>互动平台</a>
 								<ul>
+                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('admincontent/config'); ?>" target="navTab" rel="msglist">城市与品牌设置</a></li>
 									<li><a href="<?php echo Yii::app()->createAbsoluteUrl('sendmsg/index'); ?>" target="navTab" rel="msglist">信息列表</a></li>
 								</ul>
 							</li>

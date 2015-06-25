@@ -83,4 +83,10 @@ class Homeconf extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getList()
+    {
+        $obj = Homeconf::model()->findByPk('brand');
+        return explode(",",$obj->value);
+    }
 }

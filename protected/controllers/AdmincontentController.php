@@ -101,6 +101,37 @@ class AdmincontentController extends AdminSet
                     "models"=>$model
                 ));
     }
+
+    /**
+     * 网站配置项
+     */
+    public function actionConfig()
+    {
+        $model = Homeconf::model()->findByPk('city');
+        $city = $model->value;
+        $model = Homeconf::model()->findByPk('brand');
+        $brand = $model->value;
+        $this->renderPartial('config',array('city'=>$city,'brand'=>$brand));
+    }
+
+    /**
+     * 保存配置文件
+     */
+    public function actionConfsave()
+    {
+        $msg = $this->msgcode();
+        $city = Yii::app()->getRequest()->getParam("city", ""); //城市列表
+        $brand = Yii::app()->getRequest()->getParam("brand", ""); //品牌列表
+        $model = Homeconf::model()->findByPk('city');
+        $model->value = str_replace("，",",",$city);
+        $model->save();
+        $mod = Homeconf::model()->findByPk('brand');
+        $mod->value = str_replace("，",",",$brand);
+        $model->save();
+        $this->msgsucc($msg);
+        echo json_encode($msg);
+    }
+
     /**
      * 用户修改密码
      */
@@ -200,4 +231,6 @@ class AdmincontentController extends AdminSet
         }
         echo json_encode($msg);
     }
+
+
 }
