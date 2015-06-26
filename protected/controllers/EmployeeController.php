@@ -22,9 +22,11 @@ class EmployeeController extends AdminSet
         $pages['numPerPage'] = Yii::app()->getRequest()->getParam("numPerPage", 50); //每页多少条数据
 
         $pages['name'] = Yii::app()->getRequest()->getParam("name",""); //按名称查询
+        $pages['stage'] = Yii::app()->getRequest()->getParam("stage",""); //按阶段搜索
 
         $criteria = new CDbCriteria;
         !empty($pages['name'])&&$criteria->compare('employee_name', $pages['name']);
+        !empty($pages['stage'])&&$criteria->addSearchCondition('stage',$pages['stage']);
         $pages['countPage'] = WxNewEmployee::model()->count($criteria);
 
         $criteria->limit = $pages['numPerPage'];
@@ -32,8 +34,20 @@ class EmployeeController extends AdminSet
         $criteria->order = 'id DESC';
         $allList = WxNewEmployee::model()->findAll($criteria);
 
+        $tel = "";
+        foreach($allList as $val)
+        {
+            $tel .= sprintf('"%s",',$val->tel);
+        }
+        $tel = rtrim($tel,",");
+        $hook = WxHook::model()->findAll("tel in({$tel})");
+        $hkList = array();
+        foreach($hook as $value)
+        {
+            $hkList[$value->tel] = $value->desc;
+        }
         $this->renderPartial('index', array(
-            'models' => $allList,
+            'models' => $allList,'hook'=>$hkList,
             'pages' => $pages),false,true);
     }
 
@@ -42,6 +56,68 @@ class EmployeeController extends AdminSet
      */
     public function actionVimport(){
         $this->renderPartial('_import');
+    }
+
+    public function actionHook(){
+        $tel = Yii::app()->getRequest()->getParam("tel","");
+        $stage = Yii::app()->getRequest()->getParam("stage","");
+        $model = WxHook::model()->find("tel=:tl",array(":tl"=>$tel));
+        $desc = "";
+        $id = "";
+        if(!empty($model))
+        {
+            $id = $model->id;
+            $stage = $model->stage;
+            $desc = $model->desc;
+        }
+        $this->renderPartial('_hook',array("id"=>$id,"tel"=>$tel,"stage"=>$stage,"desc"=>$desc));
+    }
+
+    public function actionHooksave(){
+        $msg = array("code" => 1, "msg" => "失败", "obj" => NULL);
+        $tel = Yii::app()->getRequest()->getParam("hktel","");
+        $stage = Yii::app()->getRequest()->getParam("hkstage","");
+        $desc = Yii::app()->getRequest()->getParam("hkdesc","");
+        $id = Yii::app()->getRequest()->getParam("hkid","");
+
+        if(empty($tel)||empty($stage))
+        {
+            $msg['msg'] = "电话和阶段不能为空";
+        }elseif(empty($desc)&&!empty($id))
+        {
+            WxHook::model()->deleteByPk($id);
+            $msg['code'] = 0;
+        }else
+        {
+            if(empty($id))
+            {
+                $wk = new WxHook();
+                $wk->tel = $tel;
+                $wk->stage = $stage;
+                $wk->desc = $desc;
+                if($wk->save())
+                {
+                    $msg['code'] = 0;
+                }else
+                {
+                    $msg['msg'] = "提交失败";
+                }
+            }else
+            {
+                $wk = WxHook::model()->findByPk($id);
+                $wk->tel = $tel;
+                $wk->stage = $stage;
+                $wk->desc = $desc;
+                if($wk->save())
+                {
+                    $msg['code'] = 0;
+                }else
+                {
+                    $msg['msg'] = "提交失败";
+                }
+            }
+        }
+        echo json_encode($msg);
     }
     /**
      * 导入功能

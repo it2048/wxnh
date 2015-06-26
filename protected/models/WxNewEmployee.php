@@ -21,6 +21,7 @@
  * @property string $email
  * @property string $am_name
  * @property string $am_id
+ * @property string $desc
  */
 class WxNewEmployee extends CActiveRecord
 {
@@ -57,9 +58,10 @@ class WxNewEmployee extends CActiveRecord
 			array('employee_degree', 'length', 'max'=>8),
 			array('hr_market, province, city, stage', 'length', 'max'=>16),
 			array('tel', 'length', 'max'=>26),
+			array('desc', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, empty_no, empty_name, employee_name, employee_type, employee_source, employee_degree, employee_brand, hr_market, hr_boss, province, city, stage, tel, email, am_name, am_id', 'safe', 'on'=>'search'),
+			array('id, empty_no, empty_name, employee_name, employee_type, employee_source, employee_degree, employee_brand, hr_market, hr_boss, province, city, stage, tel, email, am_name, am_id, desc', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -97,6 +99,7 @@ class WxNewEmployee extends CActiveRecord
 			'email' => 'Email',
 			'am_name' => 'Am Name',
 			'am_id' => 'Am',
+			'desc' => 'Desc',
 		);
 	}
 
@@ -128,11 +131,13 @@ class WxNewEmployee extends CActiveRecord
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('am_name',$this->am_name,true);
 		$criteria->compare('am_id',$this->am_id,true);
+		$criteria->compare('desc',$this->desc,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
 
     /**
      * 将csv文件保存到数据库中

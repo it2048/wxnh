@@ -8,7 +8,7 @@
  * @property integer $month
  * @property integer $brand
  * @property string $dm
- * @property integer $zmzy
+ * @property string $zmzy
  * @property string $city
  * @property string $am_sge
  * @property integer $am_time
@@ -50,9 +50,10 @@ class WxInterview extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('month, brand, dm, zmzy, city, am_sge, am_time, am_add, am_people, oje_ct, oje_time, oje_add, oje_people, dm_time, dm_add, dm_people', 'required'),
-			array('month, brand, zmzy, am_time, am_people, oje_time, oje_people, dm_time, dm_people', 'numerical', 'integerOnly'=>true),
+			array('dm, zmzy, city, am_sge, am_add, oje_ct, oje_add, dm_add', 'required'),
+			array('month, brand, am_time, am_people, oje_time, oje_people, dm_time, dm_people', 'numerical', 'integerOnly'=>true),
 			array('dm, city, am_sge', 'length', 'max'=>45),
+			array('zmzy', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, month, brand, dm, zmzy, city, am_sge, am_time, am_add, am_people, oje_ct, oje_time, oje_add, oje_people, dm_time, dm_add, dm_people', 'safe', 'on'=>'search'),
@@ -111,7 +112,7 @@ class WxInterview extends CActiveRecord
 		$criteria->compare('month',$this->month);
 		$criteria->compare('brand',$this->brand);
 		$criteria->compare('dm',$this->dm,true);
-		$criteria->compare('zmzy',$this->zmzy);
+		$criteria->compare('zmzy',$this->zmzy,true);
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('am_sge',$this->am_sge,true);
 		$criteria->compare('am_time',$this->am_time);

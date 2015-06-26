@@ -32,9 +32,10 @@ class AdminintController extends AdminSet
         $criteria->offset = $pages['numPerPage'] * ($pages['pageNum'] - 1);
         $criteria->order = 'id DESC';
         $allList = WxInterview::model()->findAll($criteria);
-
+        $model = new Homeconf();
+        $lst = $model->getList();
         $this->renderPartial('index', array(
-            'models' => $allList,
+            'models' => $allList,'lst'=>$lst,
             'pages' => $pages),false,true);
     }
 
@@ -71,31 +72,50 @@ class AdminintController extends AdminSet
     public function actionSave()
     {
         $msg = $this->msgcode();
-        $open_id = Yii::app()->request->getParam('open_id');
-        $name = Yii::app()->request->getParam('name');
-        $employee_id = Yii::app()->request->getParam('employee_id');
-        $group_id = Yii::app()->request->getParam('group_id');
-        $tel = Yii::app()->request->getParam('tel');
-        $email = Yii::app()->request->getParam('email');
-        if(!empty($open_id))
+        $month = Yii::app()->request->getParam('month',0);
+        $brand = Yii::app()->request->getParam('brand',0);
+        $dm = Yii::app()->request->getParam('dm','');
+        $city = Yii::app()->request->getParam('city','');
+        $am_sge = Yii::app()->request->getParam('am_sge','');
+        $am_time = Yii::app()->request->getParam('am_time',0);
+        $am_add = Yii::app()->request->getParam('am_add','');
+        $am_people = Yii::app()->request->getParam('am_people',0);
+        $oje_ct = Yii::app()->request->getParam('oje_ct','');
+        $oje_time = Yii::app()->request->getParam('oje_time',0);
+        $oje_add = Yii::app()->request->getParam('oje_add','');
+        $oje_people = Yii::app()->request->getParam('oje_people',0);
+        $dm_time = Yii::app()->request->getParam('dm_time',0);
+        $dm_add = Yii::app()->request->getParam('dm_add','');
+        $dm_people = Yii::app()->request->getParam('dm_people',0);
+        $data = array(
+            'month' => intval($month),
+            'brand' => $brand,
+            'dm' => $dm,
+            'zmzy' => $this->getUserName(),
+            'city' => $city,
+            'am_sge' => $am_sge,
+            'am_time' => strtotime($am_time),
+            'am_add' => $am_add,
+            'am_people' => $am_people,
+            'oje_ct' => $oje_ct,
+            'oje_time' => strtotime($oje_time),
+            'oje_add' => $oje_add,
+            'oje_people' => $oje_people,
+            'dm_time' => strtotime($dm_time),
+            'dm_add' => $dm_add,
+            'dm_people' => $dm_people,
+        );
+
+        $kk = new WxInterview();
+        foreach($data as $k=>$val)
         {
-            $ret = new Wxcore(Yii::app()->params['weixin']);
-            $usr = new User();
-            $postid = $usr->findByPk($open_id);
-            if($postid->subscribe==1)
-            {
-                if(!empty($group_id)&&$postid['group_id']!=$group_id)
-                    $ret->transGroup($open_id,$group_id);
-                $usr->updateAll(array('name'=>$name,'employee_id'=>$employee_id,'email'=>$email,'group_id'=>$group_id,'tel'=>$tel),'open_id=:open_id',array(':open_id'=>$open_id));
-                $msg['code'] = 0;
-            }
-            else
-            {
-                $msg['msg'] = "关注并且验证了邮件的人才可以编辑";
-            }
+            $kk->$k = $val;
+        }
+        if($kk->save())
+        {
+            $msg['code'] = 0;
         }
         echo json_encode($msg);
-        Yii::app()->end();
     }
 
     /**

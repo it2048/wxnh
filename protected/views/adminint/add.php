@@ -1,5 +1,5 @@
 <div class="pageContent">
-    <form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('admincontent/usersave'); ?>" class="pageForm required-validate" onsubmit="return iframeCallback(this, viData);" enctype="multipart/form-data">
+    <form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('adminint/save'); ?>" class="pageForm required-validate" onsubmit="return iframeCallback(this, viData);" enctype="multipart/form-data">
         <div class="pageFormContent" layoutH="56">
             <p>
                 <label>品牌：</label>

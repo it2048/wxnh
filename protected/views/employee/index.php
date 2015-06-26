@@ -5,6 +5,7 @@
                 <tbody><tr>
                     <td>
                         员工姓名：<input type="text" name="name" class="textInput" value="<?php echo $pages['name'];?>">
+                        当前面试阶段：<input type="text" name="stage" class="textInput" value="<?php echo $pages['stage'];?>">
                     </td>
                     <td><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></td>
                 </tr>
@@ -21,7 +22,7 @@
             <li><a title="导入数据" mask="true" height="200" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('employee/vimport'); ?>" class="add"><span>导入数据</span></a></li>
         </ul>
     </div>
-    <table class="table" width="860" layoutH="110">
+    <table class="table" width="960" layoutH="110">
         <thead>
         <tr>
             <th width="100">姓名</th>
@@ -29,6 +30,7 @@
             <th width="100">邮箱</th>
             <th width="160">应聘职位名称</th>
             <th width="100">当前招聘进度</th>
+            <th width="200">额外通知内容</th>
             <th width="100">编辑</th>
         </tr>
         </thead>
@@ -40,8 +42,10 @@
                 <td><?php echo $value['email']; ?></td>
                 <td><?php echo $value['empty_name']; ?></td>
                 <td><?php echo $value['stage']; ?></td>
+                <td><?php echo empty($hook[$value['tel']])?"":$hook[$value['tel']]; ?></td>
                 <td>
                     <a title="确实要删除这条记录吗?" callback="deleteAuCall" target="ajaxTodo" href="<?php echo Yii::app()->createAbsoluteUrl('employee/del',array('id'=>$value['id'])); ?>" class="btnDel">删除</a>
+                    <a title="添加通知" mask="true" height="320" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('employee/hook',array("tel"=>$value['tel'],"stage"=>urlencode($value['stage']))); ?>" class="btnEdit">添加通知项</a>
                 </td>
             </tr>
         <?php }?>
