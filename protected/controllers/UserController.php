@@ -53,7 +53,7 @@ class UserController extends AdminSet
         $usr = new User();
         //以关注的用户更新内容
         $userinfo = $usr->findAll("subscribe=:type",array("type"=>1));
-        try {
+
             foreach ($userinfo as $value) {
                 $usrList = $ret->getUsrinfo($value->open_id);
                 $tpe = $value->type==0?1:$value->type;
@@ -64,15 +64,13 @@ class UserController extends AdminSet
                 }else
                 {
                     $grp = $ret->getUsrgroup($value->open_id);
-                    $usr->updateAll(array('nickname'=>$usrList['nickname'],'group_id'=>$grp['groupid'],'sex'=>$usrList['sex'],'city'=>$usrList['city'],'province'=>$usrList['province'],
+                    $usr->updateAll(array('nickname'=>preg_replace('/[\x{10000}-\x{10FFFF}]/u','',$usrList['nickname']),'group_id'=>$grp['groupid'],'sex'=>$usrList['sex'],'city'=>$usrList['city'],'province'=>$usrList['province'],
                     'country'=>$usrList['country'],"subscribe"=>$usrList['subscribe'],"type"=>$tpe),'open_id=:open_id',array(':open_id'=>$value->open_id));
                 }
                 $usr->setIsNewRecord(TRUE);
             }
             $this->msgsucc($msg);
-        } catch (Exception $exc) {
-                 $msg['msg'] = "微信端口连接错误";
-        }
+
         echo json_encode($msg);
         Yii::app()->end();
     }
