@@ -14,12 +14,11 @@ class MailCommand extends CConsoleCommand
         $obj= new ReceiveMail('it2048@163.com','lnrxmvauvzdeujjy','it2048@163.com','pop.163.com','pop3','110',false);
         $obj->connect();         //If connection fails give error message and exit
         $tot=$obj->getTotalMails(); //Total Mails in Inbox Return integer value
-
         $mailH = 'datainsighttool@brassring.com';
         for($i=$tot;$i>0;$i--)
         {
             $head=$obj->getHeaders($i);  // Get Header Info Return Array Of Headers **Array Keys are (subject,to,toOth,toNameOth,from,fromName)
-            if($head['from']==$mailH&&date('Ymd', $head['time'])==date('Ymd'))
+            if(trim($head['from'])==$mailH&&date('Ymd', trim($head['time']))==date('Ymd'))
             {
                 $str=$obj->GetAttach($i,""); // Get attached File from Mail Return name of file in comma separated string  args. (mailid, Path to store file)
                 preg_match_all ('/<a href=\"(.*?)\".*?>(.*?)<\/a>/i',$str,$matches);
@@ -32,7 +31,7 @@ class MailCommand extends CConsoleCommand
                 $em = new WxNewEmployee();
                 echo "解析文件中……\r\n";
                 echo $em->storeCsv($filename);
-                @unlink($filename);
+                //@unlink($filename);
                 break;
             }
         }

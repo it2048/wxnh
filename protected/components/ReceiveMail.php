@@ -146,7 +146,7 @@ class ReceiveMail
             foreach($struckture->parts as $key => $value)
             {
                 $enc=$struckture->parts[$key]->encoding;
-                if($struckture->parts[$key]->ifdparameters)
+                if($struckture->parts[$key]->subtype == "OCTET-STREAM")
                 {
                     $message = imap_fetchbody($this->marubox,$mid,$key+1);
                     if ($enc == 0)
