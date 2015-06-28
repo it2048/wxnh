@@ -1,5 +1,5 @@
 <div class="pageContent">
-    <form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('adminint/save'); ?>" class="pageForm required-validate" onsubmit="return iframeCallback(this, viData);" enctype="multipart/form-data">
+    <form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('adminint/update'); ?>" class="pageForm required-validate" onsubmit="return iframeCallback(this, viData);" enctype="multipart/form-data">
         <div class="pageFormContent" layoutH="56">
             <p>
                 <label>品牌：</label>
@@ -13,6 +13,7 @@
             </p>
             <p>
                 <label>DM：</label>
+                <input  name="id" type="hidden" value="<?php echo $model->id;?>">
                 <input  name="dm" type="text" class="required textInput" size="30" value="<?php echo $model->dm;?>">
             </p>
             <p>
@@ -89,7 +90,7 @@
         }
         else
         {
-            alertMsg.correct("保存成功"); //返回错误
+            alertMsg.correct("更新成功"); //返回错误
             navTab.reload(json.usermaneger);  //刷新主页面
             $.pdialog.closeCurrent();  //
         }

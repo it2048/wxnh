@@ -126,6 +126,64 @@ class AdminintController extends AdminSet
         echo json_encode($msg);
     }
 
+
+    public function actionUpdate()
+    {
+        $msg = $this->msgcode();
+        $id = Yii::app()->request->getParam('id',0);
+        $kk = WxInterview::model()->findByPk($id);
+        if(empty($kk))
+        {
+            $msg['msg'] = "id 不存在";
+        }else
+        {
+            $month = Yii::app()->request->getParam('month',0);
+            $brand = Yii::app()->request->getParam('brand',0);
+            $dm = Yii::app()->request->getParam('dm','');
+            $city = Yii::app()->request->getParam('city','');
+            $am_sge = Yii::app()->request->getParam('am_sge','');
+            $am_time = Yii::app()->request->getParam('am_time',0);
+            $am_add = Yii::app()->request->getParam('am_add','');
+            $am_people = Yii::app()->request->getParam('am_people',0);
+            $oje_ct = Yii::app()->request->getParam('oje_ct','');
+            $oje_time = Yii::app()->request->getParam('oje_time',0);
+            $oje_add = Yii::app()->request->getParam('oje_add','');
+            $oje_people = Yii::app()->request->getParam('oje_people',0);
+            $dm_time = Yii::app()->request->getParam('dm_time',0);
+            $dm_add = Yii::app()->request->getParam('dm_add','');
+            $dm_people = Yii::app()->request->getParam('dm_people',0);
+            $data = array(
+                'month' => intval($month),
+                'brand' => $brand,
+                'dm' => $dm,
+                'zmzy' => $this->getUserName(),
+                'city' => $city,
+                'am_sge' => $am_sge,
+                'am_time' => strtotime($am_time),
+                'am_add' => $am_add,
+                'am_people' => $am_people,
+                'oje_ct' => $oje_ct,
+                'oje_time' => strtotime($oje_time),
+                'oje_add' => $oje_add,
+                'oje_people' => $oje_people,
+                'dm_time' => strtotime($dm_time),
+                'dm_add' => $dm_add,
+                'dm_people' => $dm_people,
+            );
+
+            foreach($data as $k=>$val)
+            {
+                $kk->$k = $val;
+            }
+            if($kk->save())
+            {
+                $msg['code'] = 0;
+            }
+        }
+
+        echo json_encode($msg);
+    }
+
     /**
      * 删除取消关注的人
      */
