@@ -1,30 +1,73 @@
 <div class="pageContent">
-    <form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('admincontent/userupdate'); ?>" class="pageForm required-validate" onsubmit="return iframeCallback(this, viData);" enctype="multipart/form-data">
+    <form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('adminint/save'); ?>" class="pageForm required-validate" onsubmit="return iframeCallback(this, viData);" enctype="multipart/form-data">
         <div class="pageFormContent" layoutH="56">
             <p>
-                <label>用户名：</label>
-                <input readonly="true"  name="username" type="text" class="textInput readonly" size="30" value="<?php echo $models->username;?>">
+                <label>品牌：</label>
+                <select class="combox" name="brand">
+                    <?php
+                    foreach($lst as $k=>$val){
+                        $s = $k==$model->brand?"selected":"";
+                        printf('<option value="%s" %s>%s</option>',$k,$s,$val);
+                    } ?>
+                </select>
             </p>
             <p>
-                <label>姓名：</label>
-                <input  name="name" type="text" class="required textInput" size="30" value="<?php echo $models->name;?>">
+                <label>DM：</label>
+                <input  name="dm" type="text" class="required textInput" size="30" value="<?php echo $model->dm;?>">
             </p>
             <p>
-                <label>密码：</label>
-                <input type="password" id="cp_password" name="password" size="30" minlength="6" maxlength="20" class="alphanumeric textInput valid">
+                <label>城市：</label>
+                <input  name="city" type="text" class="required textInput" size="30" value="<?php echo $model->city;?>">
             </p>
             <p>
-                <label>确认密码：</label>
-                <input type="password" id="rePassword" name="rePassword" size="30" equalto="#cp_password" class="alphanumeric textInput error">
+                <label>建议AM：</label>
+                <input  name="am_sge" type="text" class="required textInput" size="30" value="<?php echo $model->am_sge;?>">
             </p>
             <p>
-                <label>联系电话：</label>
-                <input  name="tel" type="text" class="textInput" size="30" value="<?php echo $models->tel;?>">
+                <label>AM时间：</label>
+                <input  name="am_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->am_time);?>">
             </p>
             <p>
-                <label>邮箱：</label>
-                <input  name="email" type="text" class="textInput" size="30" value="<?php echo $models->email;?>">
+                <label>AM地址：</label>
+                <input  name="am_add" type="text" class="required textInput" size="30" value="<?php echo $model->am_add;?>">
             </p>
+            <p>
+                <label>AM人数：</label>
+                <input  name="am_people" type="text" class="required textInput" size="30" value="<?php echo $model->am_people;?>">
+            </p>
+            <p>
+                <label>OJE餐厅：</label>
+                <input  name="oje_ct" type="text" class="required textInput" size="30" value="<?php echo $model->oje_ct;?>">
+            </p>
+            <p>
+                <label>OJE时间：</label>
+                <input  name="oje_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->oje_time);?>">
+            </p>
+            <p>
+                <label>OJE地址：</label>
+                <input  name="oje_add" type="text" class="required textInput" size="30" value="<?php echo $model->oje_add;?>">
+            </p>
+            <p>
+                <label>OJE人数：</label>
+                <input  name="oje_people" type="text" class="required textInput" size="30" value="<?php echo $model->oje_people;?>">
+            </p>
+            <p>
+                <label>DM时间：</label>
+                <input  name="dm_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->dm_time);?>">
+            </p>
+            <p>
+                <label>DM地址：</label>
+                <input  name="dm_add" type="text" class="required textInput" size="30" value="<?php echo $model->dm_add;?>">
+            </p>
+            <p>
+                <label>DM人数：</label>
+                <input  name="dm_people" type="text" class="required textInput" size="30" value="<?php echo $model->dm_people;?>">
+            </p>
+            <p>
+                <label>计划表月份：</label>
+                <input  name="month" type="text" class="date" dateFmt="yyyyMM" readonly="true" value="<?php echo empty($model->month)?date('Ym'):$model->month;?>">
+            </p>
+
         </div>
         <div class="formBar">
             <ul>
@@ -46,7 +89,7 @@
         }
         else
         {
-            alertMsg.correct("更新成功"); //返回错误
+            alertMsg.correct("保存成功"); //返回错误
             navTab.reload(json.usermaneger);  //刷新主页面
             $.pdialog.closeCurrent();  //
         }

@@ -40,12 +40,16 @@ class EmployeeController extends AdminSet
             $tel .= sprintf('"%s",',$val->tel);
         }
         $tel = rtrim($tel,",");
-        $hook = WxHook::model()->findAll("tel in({$tel})");
         $hkList = array();
-        foreach($hook as $value)
+        if(!empty($tel))
         {
-            $hkList[$value->tel] = $value->desc;
+            $hook = WxHook::model()->findAll("tel in({$tel})");
+            foreach($hook as $value)
+            {
+                $hkList[$value->tel] = $value->desc;
+            }
         }
+
         $this->renderPartial('index', array(
             'models' => $allList,'hook'=>$hkList,
             'pages' => $pages),false,true);

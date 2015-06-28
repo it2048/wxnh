@@ -48,7 +48,7 @@
 			<tr>
 				<td><?php echo empty($lst[$value['brand']])?$value['brand']:$lst[$value['brand']]; ?></td>
                 <td><?php echo $value['dm'];?></td>
-                <td><?php echo $value['zmzy'];?></td>
+                <td><?php echo empty($userList[$value['zmzy']])?$value['zmzy']:$userList[$value['zmzy']];?></td>
                 <td><?php echo $value['city'];?></td>
                 <td><?php echo $value['am_sge'];?></td>
                 <td><?php echo date('Y-m-d H:i:s',$value['am_time']); ?></td>
@@ -63,7 +63,8 @@
                 <td><?php echo $value['dm_people'];?></td>
                 <td><?php echo $value['month'];?></td>
 				<td>
-                    <a title="编辑" mask="true" height="320" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('adminint/edit',array("id"=>$value['id'])); ?>" class="btnEdit">编辑</a>
+                    <a title="确实要删除这条记录吗?" callback="deleteAuCall" target="ajaxTodo" href="<?php echo Yii::app()->createAbsoluteUrl('adminint/del',array('id'=>$value['id'])); ?>" class="btnDel">删除</a>
+                    <a title="编辑" mask="true" height="500" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('adminint/edit',array("id"=>$value['id'])); ?>" class="btnEdit">编辑</a>
                 </td>
 			</tr>
             <?php }?>
@@ -90,5 +91,16 @@ function updateUsr(json) {
         alertMsg.correct("更新成功"); //返回错误
         navTab.reload(json.userlist);  //刷新主页面
     }
+}
+
+function deleteAuCall(res)
+{
+    if(res.code!=0)
+        alertMsg.error("删除失败");
+    else
+    {
+        navTab.reload(res.mobile_game_config);  //刷新主页面
+    }
+
 }
 </script>

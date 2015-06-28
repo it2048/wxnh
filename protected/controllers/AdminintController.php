@@ -9,7 +9,6 @@ class AdminintController extends AdminSet
     public $layout='';
 
 
-
     /**
      * 生成首页
      *
@@ -32,32 +31,30 @@ class AdminintController extends AdminSet
         $criteria->offset = $pages['numPerPage'] * ($pages['pageNum'] - 1);
         $criteria->order = 'id DESC';
         $allList = WxInterview::model()->findAll($criteria);
+
+        $tel = "";
+        foreach($allList as $val)
+        {
+            $tel .= sprintf('"%s",',$val->zmzy);
+        }
+        $tel = rtrim($tel,",");
+        $hkList = array();
+        if(!empty($tel))
+        {
+            $hook = WxAdmin::model()->findAll("username in({$tel})");
+            foreach($hook as $value)
+            {
+                $hkList[$value->username] = $value->name;
+            }
+        }
+
         $model = new Homeconf();
         $lst = $model->getList();
         $this->renderPartial('index', array(
-            'models' => $allList,'lst'=>$lst,
+            'models' => $allList,'lst'=>$lst,'userList'=>$hkList,
             'pages' => $pages),false,true);
     }
 
-    /**
-     * 手动更新用户信息
-     */
-    public function actionEdit()
-    {
-        $id = Yii::app()->request->getParam('id');
-        if(!empty($id))
-        {
-            $usrInfo = WxInterview::model()->findByPk($id);
-            //关注的人才可以编辑
-            $grpList = Group::model()->findAll();
-            $this->renderPartial('edit', array(
-                'usrInfo' => $usrInfo
-            ), false, true);
-        }else
-        {
-            echo "记录不存在";
-        }
-    }
 
     public function actionAdd()
     {
@@ -66,6 +63,17 @@ class AdminintController extends AdminSet
 
         $this->renderPartial('add',array('lst'=>$lst));
     }
+
+    public function actionEdit()
+    {
+        $id = Yii::app()->request->getParam('id');
+
+        $mod = WxInterview::model()->findByPk($id);
+        $model = new Homeconf();
+        $lst = $model->getList();
+        $this->renderPartial('edit',array('lst'=>$lst,"model"=>$mod));
+    }
+
     /**
      * 保存手动更新后的内容
      */
@@ -124,10 +132,10 @@ class AdminintController extends AdminSet
     public function actionDel()
     {
         $msg = $this->msgcode();
-        $open_id = Yii::app()->request->getParam('openid');
+        $open_id = Yii::app()->request->getParam('id');
         if(!empty($open_id))
         {
-            if(User::model()->deleteByPk($open_id))
+            if(WxInterview::model()->deleteByPk($open_id))
             {
                 $this->msgsucc($msg);
             }else{
