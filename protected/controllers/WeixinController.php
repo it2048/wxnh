@@ -34,7 +34,6 @@ class WeixinController extends CController{
             {
                 echo $echostr;die();
             }
-
         }
         else
         {
@@ -125,18 +124,68 @@ class WeixinController extends CController{
         {
             $openid = $this->weixin->_postData->FromUserName."";
             $lst = User::model()->findByPk($openid);
-            $mel = WxNewEmployee::model()->findAll("tel=:tl",array(":tl"=>$lst->tel));
-            if(empty($mel))
+            $mel = WxNewEmployee::model()->find("tel=:tl",array(":tl"=>$lst->tel));
+            if(empty($mel)||!in_array($mel->stage,TempList::$Stage))
             {
-                $xml = $this->weixin->outputText("抱歉，未查到您的面试信息");
+                $xml = $this->weixin->outputText("抱歉，暂时未查询到您的后续面试安排 ");
             }else
             {
-                $str = "";
-                foreach($mel as $val)
+                $brand = Homeconf::model()->findByPk('brand');
+                $arr = explode(",",$brand->value);
+                $tk = array_search($mel->employee_brand,$arr);
+                if($tk===false)
                 {
-                    $str .= sprintf("姓名：%s,面试职位：%s，当前状态：%s \r\n",$val->employee_name,$val->empty_name,$val->stage);
+                    $xml = $this->weixin->outputText("抱歉，暂时未查询到您的后续面试安排 ");
+                }else
+                {
+                    $str = "";
+                    $hook = WxHook::model()->find("tel=:tl and stage=:stg",array(":tl"=>$mel->tel,":stg"=>$mel->stage));
+                    if(!empty($hook))
+                    {
+                        $str = sprintf("恭喜“%s”,本轮面试通过。%s",$mel->employee_name,$hook->desc);
+                    }
+                    elseif($mel->stage=="HR面试通过")
+                    {
+                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct order by am_time desc",array(":bd"=>$tk,":ct"=>$mel->city));
+
+                        if(empty($inte))
+                        {
+                            $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                        }else
+                        {
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试安排在“%s、%s”，请提前做好相关准备！",
+                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->am_time),$inte[0]->am_add);
+                        }
+                    }elseif($mel->stage=="AM面试通过")
+                    {
+                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct order by oje_time desc",array(":bd"=>$tk,":ct"=>$mel->city));
+
+                        if(empty($inte))
+                        {
+                            $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                        }else
+                        {
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试安排在“%s、%s”，请提前做好相关准备！",
+                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->oje_time),$inte[0]->oje_add);
+                        }
+                    }elseif($mel->stage=="OJE通过")
+                    {
+                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct order by dm_time desc",array(":bd"=>$tk,":ct"=>$mel->city));
+
+                        if(empty($inte))
+                        {
+                            $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                        }else
+                        {
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试安排在“%s、%s”，请提前做好相关准备！",
+                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->dm_time),$inte[0]->dm_add);
+                        }
+                    }elseif($mel->stage=="DM面试通过")
+                    {
+                        $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                    }
+                    $xml = $this->weixin->outputText($str);
                 }
-                $xml = $this->weixin->outputText($str);
             }
         }
         return $xml;

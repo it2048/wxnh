@@ -176,9 +176,12 @@ class WxNewEmployee extends CActiveRecord
                 {
                     $arr[$k] = str_replace(array("'",'"'),"",$val);
                 }
-                $str .= sprintf("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'),",
-                    $arr[0],$arr[1],$arr[2].$arr[3],$arr[4],$arr[5],
-                    $arr[6],$arr[7],$arr[8],$arr[9],$arr[10],$arr[11],$arr[12],$arr[31],$arr[32],$arr[33],$arr[34]);
+                if(in_array($arr[12],TempList::$Stage))
+                {
+                    $str .= sprintf("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'),",
+                        $arr[0],$arr[1],$arr[2].$arr[3],$arr[4],$arr[5],
+                        $arr[6],$arr[7],$arr[8],$arr[9],$arr[10],$arr[11],$arr[12],$arr[31],$arr[32],$arr[33],$arr[34]);
+                }
             }
 
         }
