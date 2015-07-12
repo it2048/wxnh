@@ -153,8 +153,8 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试安排在“%s、%s”，请提前做好相关准备！",
-                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->am_time),$inte[0]->am_add);
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
+                                $mel->employee_name,date('Y-m-d',$inte[0]->am_time),$inte[0]->am_add);
                         }
                     }elseif($mel->stage=="AM面试通过")
                     {
@@ -165,8 +165,8 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试安排在“%s、%s”，请提前做好相关准备！",
-                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->oje_time),$inte[0]->oje_add);
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
+                                $mel->employee_name,date('Y-m-d',$inte[0]->oje_time),$inte[0]->oje_add);
                         }
                     }elseif($mel->stage=="OJE通过")
                     {
@@ -177,7 +177,7 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试安排在“%s、%s”，请提前做好相关准备！",
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
                                 $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->dm_time),$inte[0]->dm_add);
                         }
                     }elseif($mel->stage=="DM面试通过")
