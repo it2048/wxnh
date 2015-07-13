@@ -104,7 +104,7 @@ class Msg extends CActiveRecord
     public function insertReceive($arr)
     {
         $this->receive_id = $arr->ToUserName;
-        $this->tm = $arr->CreateTime;
+        $this->tm = intval($arr->CreateTime);
         $this->type = $arr->MsgType;
         $this->content = $arr->Content;
         $this->send_id = $arr->FromUserName;

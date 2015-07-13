@@ -146,7 +146,7 @@ class WeixinController extends CController{
                     }
                     elseif($mel->stage=="HR面试通过")
                     {
-                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct order by am_time desc",array(":bd"=>$tk,":ct"=>$mel->city));
+                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and am_time>:tm order by am_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
 
                         if(empty($inte))
                         {
@@ -158,7 +158,7 @@ class WeixinController extends CController{
                         }
                     }elseif($mel->stage=="AM面试通过")
                     {
-                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct order by oje_time desc",array(":bd"=>$tk,":ct"=>$mel->city));
+                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and oje_time>:tm order by oje_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
 
                         if(empty($inte))
                         {
@@ -170,7 +170,7 @@ class WeixinController extends CController{
                         }
                     }elseif($mel->stage=="OJE通过")
                     {
-                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct order by dm_time desc",array(":bd"=>$tk,":ct"=>$mel->city));
+                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and dm_time>:tm order by dm_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
 
                         if(empty($inte))
                         {
