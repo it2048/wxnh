@@ -142,7 +142,24 @@ class WeixinController extends CController{
                     $hook = WxHook::model()->find("tel=:tl and stage=:stg",array(":tl"=>$mel->tel,":stg"=>$mel->stage));
                     if(!empty($hook))
                     {
-                        $str = sprintf("恭喜“%s”,本轮面试通过。%s",$mel->employee_name,$hook->desc);
+                        if($mel->stage=="AM通过")
+                        {
+                            $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and dm_time>:tm order by dm_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
+
+                            if(empty($inte))
+                            {
+                                $str = sprintf("恭喜“%s”,本轮面试通过。%s",$mel->employee_name,$hook->desc);
+
+                                //$str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            }else
+                            {
+                                $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s和％s”，地点：%s,餐厅：%s,品牌：%s。请至疾控中心办理健康证一张具体详见链接：XXXXX",
+                                    $mel->employee_name,$hook->desc
+                                    ,$inte[0]->oje_ct,$mel->employee_brand
+                                );
+                            }
+                        }else
+                            $str = sprintf("恭喜“%s”,本轮面试通过。%s",$mel->employee_name,$hook->desc);
                     }
                     elseif($mel->stage=="HR面试通过")
                     {
@@ -165,8 +182,11 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
-                                $mel->employee_name,date('Y-m-d',$inte[0]->oje_time),$inte[0]->oje_add);
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s和％s”，地点：%s,餐厅：%s,品牌：%s。请至疾控中心办理健康证一张具体详见链接：XXXXX",
+                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->oje_time),date('Y-m-d H:i:s',$inte[0]->oje_time+86400),$inte[0]->oje_add
+                            ,$inte[0]->oje_ct,$mel->employee_brand
+                            );
+
                         }
                     }elseif($mel->stage=="OJE通过")
                     {
@@ -178,11 +198,12 @@ class WeixinController extends CController{
                         }else
                         {
                             $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
-                                $mel->employee_name,date('Y-m-d H:i:s',$inte[0]->dm_time),$inte[0]->dm_add);
+                                $mel->employee_name,date('Y-m-d',$inte[0]->dm_time),$inte[0]->dm_add);
                         }
                     }elseif($mel->stage=="DM面试通过")
                     {
-                        $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                        $str = sprintf("恭喜“%s”,您已通过百胜储备经理面试，公司将与您电话确认offer事宜，请提前准备入职资料：
+                        但健康证，工行卡，身份证，学历证明，寸照",$mel->employee_name);
                     }
                     $xml = $this->weixin->outputText($str);
                 }
