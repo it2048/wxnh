@@ -144,7 +144,7 @@ class WeixinController extends CController{
                     {
                         if($mel->stage=="AM通过")
                         {
-                            $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and dm_time>:tm order by dm_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
+                            $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and oje_time>:tm order by oje_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
 
                             if(empty($inte))
                             {
