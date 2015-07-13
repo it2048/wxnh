@@ -142,7 +142,7 @@ class WeixinController extends CController{
                     $hook = WxHook::model()->find("tel=:tl and stage=:stg",array(":tl"=>$mel->tel,":stg"=>$mel->stage));
                     if(!empty($hook))
                     {
-                        if($mel->stage=="AM通过")
+                        if($mel->stage=="AM面试通过")
                         {
                             $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and oje_time>:tm order by oje_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
 
