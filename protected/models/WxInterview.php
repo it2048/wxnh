@@ -10,6 +10,7 @@
  * @property string $dm
  * @property string $zmzy
  * @property string $city
+ * @property integer $hr_time
  * @property string $am_sge
  * @property integer $am_time
  * @property string $am_add
@@ -24,16 +25,6 @@
  */
 class WxInterview extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return WxInterview the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -50,13 +41,13 @@ class WxInterview extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('dm, zmzy, city, am_sge, am_add, oje_ct, oje_add, dm_add', 'required'),
-			array('month, brand, am_time, am_people, oje_time, oje_people, dm_time, dm_people', 'numerical', 'integerOnly'=>true),
+			array('dm, zmzy, city, hr_time, am_sge, am_add, oje_ct, oje_add, dm_add', 'required'),
+			array('month, brand, hr_time, am_time, am_people, oje_time, oje_people, dm_time, dm_people', 'numerical', 'integerOnly'=>true),
 			array('dm, city, am_sge', 'length', 'max'=>45),
 			array('zmzy', 'length', 'max'=>32),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, month, brand, dm, zmzy, city, am_sge, am_time, am_add, am_people, oje_ct, oje_time, oje_add, oje_people, dm_time, dm_add, dm_people', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, month, brand, dm, zmzy, city, hr_time, am_sge, am_time, am_add, am_people, oje_ct, oje_time, oje_add, oje_people, dm_time, dm_add, dm_people', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +74,7 @@ class WxInterview extends CActiveRecord
 			'dm' => 'Dm',
 			'zmzy' => 'Zmzy',
 			'city' => 'City',
+			'hr_time' => 'Hr Time',
 			'am_sge' => 'Am Sge',
 			'am_time' => 'Am Time',
 			'am_add' => 'Am Add',
@@ -99,12 +91,19 @@ class WxInterview extends CActiveRecord
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -114,6 +113,7 @@ class WxInterview extends CActiveRecord
 		$criteria->compare('dm',$this->dm,true);
 		$criteria->compare('zmzy',$this->zmzy,true);
 		$criteria->compare('city',$this->city,true);
+		$criteria->compare('hr_time',$this->hr_time);
 		$criteria->compare('am_sge',$this->am_sge,true);
 		$criteria->compare('am_time',$this->am_time);
 		$criteria->compare('am_add',$this->am_add,true);
@@ -129,5 +129,16 @@ class WxInterview extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return WxInterview the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }

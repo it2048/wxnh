@@ -28,12 +28,13 @@
 				<th width="80">DM</th>
                 <th width="80">招募专员</th>
                 <th width="80">城市</th>
+                <th width="80">HR时间</th>
                 <th width="80">建议AM</th>
                 <th width="80">AM时间</th>
                 <th width="80">AM地点</th>
                 <th width="50">AM预估人数</th>
                 <th width="80">OJE餐厅</th>
-                <th width="80">OJE时间</th>
+                <th width="80">OJE开始时间</th>
                 <th width="80">OJE地点</th>
                 <th width="50">OJE预估人数</th>
                 <th width="80">DM时间</th>
@@ -50,6 +51,7 @@
                 <td><?php echo $value['dm'];?></td>
                 <td><?php echo empty($userList[$value['zmzy']])?$value['zmzy']:$userList[$value['zmzy']];?></td>
                 <td><?php echo $value['city'];?></td>
+                <td><?php echo date('Y-m-d H:i:s',$value['hr_time']); ?></td>
                 <td><?php echo $value['am_sge'];?></td>
                 <td><?php echo date('Y-m-d H:i:s',$value['am_time']); ?></td>
                 <td><?php echo $value['am_add'];?></td>

@@ -21,6 +21,10 @@
                 <input  name="city" type="text" class="required textInput" size="30" value="<?php echo $model->city;?>">
             </p>
             <p>
+                <label>HR时间：</label>
+                <input  name="hr_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->hr_time);?>">
+            </p>
+            <p>
                 <label>建议AM：</label>
                 <input  name="am_sge" type="text" class="required textInput" size="30" value="<?php echo $model->am_sge;?>">
             </p>
@@ -41,7 +45,7 @@
                 <input  name="oje_ct" type="text" class="required textInput" size="30" value="<?php echo $model->oje_ct;?>">
             </p>
             <p>
-                <label>OJE时间：</label>
+                <label>OJE开始时间：</label>
                 <input  name="oje_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->oje_time);?>">
             </p>
             <p>

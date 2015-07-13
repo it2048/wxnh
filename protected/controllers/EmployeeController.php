@@ -24,9 +24,13 @@ class EmployeeController extends AdminSet
         $pages['name'] = Yii::app()->getRequest()->getParam("name",""); //按名称查询
         $pages['stage'] = Yii::app()->getRequest()->getParam("stage",""); //按阶段搜索
 
+        $pages['empty_name'] = Yii::app()->getRequest()->getParam("empty_name",""); //按阶段搜索
+
         $criteria = new CDbCriteria;
         !empty($pages['name'])&&$criteria->compare('employee_name', $pages['name']);
         !empty($pages['stage'])&&$criteria->addSearchCondition('stage',$pages['stage']);
+        !empty($pages['empty_name'])&&$criteria->addSearchCondition('empty_name',$pages['empty_name']);
+
         $pages['countPage'] = WxNewEmployee::model()->count($criteria);
 
         $criteria->limit = $pages['numPerPage'];

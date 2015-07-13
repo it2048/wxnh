@@ -84,6 +84,8 @@ class AdminintController extends AdminSet
         $brand = Yii::app()->request->getParam('brand',0);
         $dm = Yii::app()->request->getParam('dm','');
         $city = Yii::app()->request->getParam('city','');
+        $hr_time = Yii::app()->request->getParam('hr_time',0);
+
         $am_sge = Yii::app()->request->getParam('am_sge','');
         $am_time = Yii::app()->request->getParam('am_time',0);
         $am_add = Yii::app()->request->getParam('am_add','');
@@ -101,6 +103,7 @@ class AdminintController extends AdminSet
             'dm' => $dm,
             'zmzy' => $this->getUserName(),
             'city' => $city,
+            'hr_time'=>strtotime($hr_time),
             'am_sge' => $am_sge,
             'am_time' => strtotime($am_time),
             'am_add' => $am_add,
@@ -114,15 +117,28 @@ class AdminintController extends AdminSet
             'dm_people' => $dm_people,
         );
 
-        $kk = new WxInterview();
-        foreach($data as $k=>$val)
+        if($data['hr_time']>$data['am_time']-172800)
         {
-            $kk->$k = $val;
-        }
-        if($kk->save())
+            $msg['msg'] = 'am时间与hr时间间隔不能低于两天';
+        }elseif($data['am_time']>$data['oje_time']-172800)
         {
-            $msg['code'] = 0;
+            $msg['msg'] = 'oje时间与am时间间隔不能低于两天';
+        }elseif($data['oje_time']>$data['dm_time']-172800)
+        {
+            $msg['msg'] = 'dm时间与oje时间间隔不能低于两天';
+        }else
+        {
+            $kk = new WxInterview();
+            foreach($data as $k=>$val)
+            {
+                $kk->$k = $val;
+            }
+            if($kk->save())
+            {
+                $msg['code'] = 0;
+            }
         }
+
         echo json_encode($msg);
     }
 
@@ -141,6 +157,7 @@ class AdminintController extends AdminSet
             $brand = Yii::app()->request->getParam('brand',0);
             $dm = Yii::app()->request->getParam('dm','');
             $city = Yii::app()->request->getParam('city','');
+            $hr_time = Yii::app()->request->getParam('hr_time',0);
             $am_sge = Yii::app()->request->getParam('am_sge','');
             $am_time = Yii::app()->request->getParam('am_time',0);
             $am_add = Yii::app()->request->getParam('am_add','');
@@ -158,6 +175,7 @@ class AdminintController extends AdminSet
                 'dm' => $dm,
                 'zmzy' => $this->getUserName(),
                 'city' => $city,
+                'hr_time'=>strtotime($hr_time),
                 'am_sge' => $am_sge,
                 'am_time' => strtotime($am_time),
                 'am_add' => $am_add,
@@ -171,16 +189,30 @@ class AdminintController extends AdminSet
                 'dm_people' => $dm_people,
             );
 
-            foreach($data as $k=>$val)
+            if($data['hr_time']>$data['am_time']-172800)
             {
-                $kk->$k = $val;
-            }
-            if($kk->save())
+                $msg['msg'] = 'am时间与hr时间间隔不能低于两天';
+            }elseif($data['am_time']>$data['oje_time']-172800)
             {
-                $msg['code'] = 0;
+                $msg['msg'] = 'oje时间与am时间间隔不能低于两天';
+            }elseif($data['oje_time']>$data['dm_time']-172800)
+            {
+                $msg['msg'] = 'dm时间与oje时间间隔不能低于两天';
+            }else
+            {
+                foreach($data as $k=>$val)
+                {
+                    $kk->$k = $val;
+                }
+                if($kk->save())
+                {
+                    $msg['code'] = 0;
+                }else{
+                    $msg['msg'] = '数据存储时发生错误';
+
+                }
             }
         }
-
         echo json_encode($msg);
     }
 

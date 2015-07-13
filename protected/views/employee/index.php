@@ -6,6 +6,7 @@
                     <td>
                         员工姓名：<input type="text" name="name" class="textInput" value="<?php echo $pages['name'];?>">
                         当前面试阶段：<input type="text" name="stage" class="textInput" value="<?php echo $pages['stage'];?>">
+                        面试职位：<input type="text" name="empty_name" class="textInput" value="<?php echo $pages['empty_name'];?>">
                     </td>
                     <td><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></td>
                 </tr>
