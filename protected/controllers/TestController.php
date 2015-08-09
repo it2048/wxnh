@@ -25,7 +25,7 @@ class TestController extends CController{
         $obj= new ReceiveMail('it2048@163.com','lnrxmvauvzdeujjy','it2048@163.com','pop.163.com','pop3','110',false);
         $obj->connect();         //If connection fails give error message and exit
         $tot=$obj->getTotalMails(); //Total Mails in Inbox Return integer value
-        $mailH = 'datainsighttool@brassring.com';
+        $mailH = 'datainsighttool@Kenexa.com';
         for($i=$tot;$i>0;$i--)
         {
             $head=$obj->getHeaders($i);  // Get Header Info Return Array Of Headers **Array Keys are (subject,to,toOth,toNameOth,from,fromName)
