@@ -182,9 +182,9 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s和%s”，地点：%s,餐厅：%s,品牌：%s。请至疾控中心办理健康证一张具体详见链接：XXXXX",
+                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s和%s”，地点：%s,%s%s餐厅。请至疾控中心办理健康证一张，详情请点击“健康证办证指南”",
                                 $mel->employee_name,date('Y-m-d',$inte[0]->oje_time),date('Y-m-d',$inte[0]->oje_time+86400),$inte[0]->oje_add
-                            ,$inte[0]->oje_ct,$mel->employee_brand
+                            ,$mel->employee_brand,$inte[0]->oje_ct
                             );
 
                         }
@@ -202,8 +202,8 @@ class WeixinController extends CController{
                         }
                     }elseif($mel->stage=="DM面试通过")
                     {
-                        $str = sprintf("恭喜“%s”,您已通过百胜储备经理面试，公司将与您电话确认offer事宜，请提前准备入职资料：
-                        但健康证，工行卡，身份证，学历证明，寸照",$mel->employee_name);
+                        $str = sprintf("恭喜“%s”,您已通过百胜储备经理面试，公司将与您电话确认offer事宜，入职需准备的资料有：
+                        健康证，工行卡，身份证，毕业证，寸照",$mel->employee_name);
                     }
                     $xml = $this->weixin->outputText($str);
                 }
@@ -273,7 +273,7 @@ class WeixinController extends CController{
                     $pl->tel = $str;
                     if($pl->save())
                     {
-                        $xml = $this->weixin->outputText("绑定电话成功！查询面试结果吧");
+                        $xml = $this->weixin->outputText("手机验证成功！请点击“面试查询”查看面试结果吧！");
                         $rds->del($openid);
                     }
                 }
