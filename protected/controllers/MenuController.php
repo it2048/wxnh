@@ -16,7 +16,7 @@ class MenuController extends AdminSet{
      */
     public function actionIndex()
     {
-        $lst = Menu::model()->findAll();
+        $lst = Menu::model()->findAll("1 order by name desc");
         $models = array();
         foreach ($lst as $value) {
             if(empty($value['parent']))
@@ -102,7 +102,7 @@ class MenuController extends AdminSet{
     public function actionSet()
     {
         $msg = $this->msgcode();
-        $lsttp = Menu::model()->findAll();
+        $lsttp = Menu::model()->findAll("1 order by name desc");
         $models = array();
         //格式化成微信对应的格式
         foreach ($lsttp as $value) {

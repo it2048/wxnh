@@ -24,7 +24,9 @@
                     <option value="0">无父标题</option>
                     <?php
                             foreach ($parent as $value) {?>
-                        <option value="<?php echo empty($models["name"])?"":$value["name"];?>" <?php echo !empty($models["name"])&&$models['parent']==$value['name']?"selected":""; ?>><?php echo $value["name"];?></option>
+                        <option value='<?php echo empty($value["name"])?"":$value["name"];?>'
+                            <?php echo !empty($value["name"])&&$value['parent']==$value['name']?"selected":""; ?>
+                            ><?php echo $value["name"];?></option>
                      <?php }?>
 				</select>
             </p>
