@@ -18,7 +18,7 @@ class UserController extends AdminSet
         $pages['pageNum'] = Yii::app()->getRequest()->getParam("pageNum", 1); //当前页
         $pages['countPage'] = Yii::app()->getRequest()->getParam("countPage", 0); //总共多少记录
         $pages['orderField'] = Yii::app()->request->getParam("orderField","group_id"); // 排序字段
-        $pages['numPerPage'] = Yii::app()->request->getParam("numPerPage",30); // 每页显示多少条
+        $pages['numPerPage'] = Yii::app()->request->getParam("numPerPage",100); // 每页显示多少条
         $pages['orderDirection'] = Yii::app()->request->getParam("orderDirection","DESC"); // 每页显示多少条
         $pages['orderDirection'] = $pages['orderDirection']!=="asc"?" DESC":" ASC";
         

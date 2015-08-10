@@ -12,7 +12,7 @@
             <li><a class="add" target="ajaxTodo" callback="updateUsr" href="<?php echo Yii::app()->createAbsoluteUrl('user/getNewUser');?>"><span>获取关注人列表</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="900" layoutH="76">
+	<table class="table" width="960" layoutH="76">
 		<thead>
 			<tr>
 				<th width="100">微信昵称</th>
@@ -20,7 +20,7 @@
                 <th width="120">姓名</th>
                 <th width="180">邮箱</th>
                 <th width="100">电话</th>
-                <th width="100">员工编号</th>
+                <th width="120">微信编号</th>
                 <th width="66">状态</th>
 				<th width="70">操作</th>
 			</tr>
@@ -33,7 +33,7 @@
                 <td><?php echo $value['name'];?></td>
                 <td><?php echo $value['email'];?></td>
                 <td><?php echo $value['tel'];?></td>
-                <td><?php echo $value['employee_id'];?></td>
+                <td><?php echo $value['open_id'];?></td>
                 <td><?php echo $value['subscribe']==1?"关注":"未关注";?></td>
 				<td>
 					<a title="同步微信数据" callback="updateUsr" target="ajaxTodo" href="<?php 
