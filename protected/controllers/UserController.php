@@ -21,7 +21,20 @@ class UserController extends AdminSet
         $pages['numPerPage'] = Yii::app()->request->getParam("numPerPage",100); // 每页显示多少条
         $pages['orderDirection'] = Yii::app()->request->getParam("orderDirection","DESC"); // 每页显示多少条
         $pages['orderDirection'] = $pages['orderDirection']!=="asc"?" DESC":" ASC";
-        
+
+
+        $pages['us_nc'] = Yii::app()->getRequest()->getParam("us_nc", ""); //总共多少记录
+        $pages['us_name'] = Yii::app()->getRequest()->getParam("us_name", ""); //总共多少记录
+        $pages['us_tel'] = Yii::app()->getRequest()->getParam("us_tel", ""); //总共多少记录
+
+        $str = "";
+        if(!empty($pages['us_nc']))
+            $str = " and nickname like '%{$pages['us_nc']}%' ";
+        if(!empty($pages['us_name']))
+            $str = " and b.`name` like '%{$pages['us_name']}%' ";
+        if(!empty($pages['us_tel']))
+            $str = " and b.`tel` like '%{$pages['us_tel']}%' ";
+
         //构造SQL
         $criteria = new CDbCriteria;
         if (empty($pages['countPage']))
@@ -32,9 +45,9 @@ class UserController extends AdminSet
             $grpList[$value['id']] = $value['name'];
         }
         $connection = Yii::app()->db;
-        $sql = sprintf("SELECT b.*,a.emp_name FROM wx_user b left join wx_employee a on a.emp_id = b.employee_id limit %d,%d",
-            $pages['numPerPage'] * ($pages['pageNum'] - 1),$pages['numPerPage']); //构造SQL
-
+        $sql = sprintf("SELECT b.*,a.emp_name FROM wx_user b left join wx_employee a on a.emp_id = b.employee_id where 1 %s limit %d,%d",
+            $str,$pages['numPerPage'] * ($pages['pageNum'] - 1),$pages['numPerPage']); //构造SQL
+        //echo $sql;die();
         $usrList = $connection->createCommand($sql)->queryAll();
         $this->renderPartial('index', array(
             'usrList' => $usrList,

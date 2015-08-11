@@ -1,9 +1,27 @@
-<form id="pagerForm" action="<?php echo Yii::app()->createAbsoluteUrl('user/index'); ?>" method="post">
-    <input type="hidden" name="pageNum" value="<?php echo $pages['pageNum'];?>" /><!--【必须】value=1可以写死-->
-    <input type="hidden" name="numPerPage" value="<?php echo $pages['numPerPage'];?>" /><!--【可选】每页显示多少条-->
-    <input type="hidden" name="orderField" value="<?php echo $pages['orderField']; ?>" />
-    <input type="hidden" name="orderDirection" value="<?php echo $pages['orderDirection']; ?>" />
-</form>
+<div class="pageHeader">
+    <form  id="pagerForm" onsubmit="return navTabSearch(this);" action="<?php echo Yii::app()->createAbsoluteUrl('user/index'); ?>" method="post">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tbody><tr>
+                    <td>
+                        昵称：<input type="text" name="us_nc" class="textInput" value="<?php echo $pages['us_nc'];?>">
+                    </td>
+                    <td>
+                        姓名：<input type="text" name="us_name" class="textInput" value="<?php echo $pages['us_name'];?>">
+                    </td>
+                    <td>
+                        电话：<input type="text" name="us_tel" class="textInput" value="<?php echo $pages['us_tel'];?>">
+                    </td>
+                    <td><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></td>
+                </tr>
+                </tbody></table>
+        </div>
+        <input type="hidden" name="pageNum" value="<?php echo $pages['pageNum'];?>" /><!--【必须】value=1可以写死-->
+        <input type="hidden" name="numPerPage" value="<?php echo $pages['numPerPage'];?>" /><!--【可选】每页显示多少条-->
+        <input type="hidden" name="orderField" value="<?php echo $pages['orderField']; ?>" />
+        <input type="hidden" name="orderDirection" value="<?php echo $pages['orderDirection']; ?>" />
+    </form>
+</div>
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
@@ -12,7 +30,7 @@
             <li><a class="add" target="ajaxTodo" callback="updateUsr" href="<?php echo Yii::app()->createAbsoluteUrl('user/getNewUser');?>"><span>获取关注人列表</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="960" layoutH="76">
+	<table class="table" width="960" layoutH="110">
 		<thead>
 			<tr>
 				<th width="100">微信昵称</th>
