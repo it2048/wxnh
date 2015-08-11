@@ -31,7 +31,7 @@
             <li><a title="导入数据" mask="true" height="200" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('employee/vimport'); ?>" class="add"><span>导入数据</span></a></li>
         </ul>
     </div>
-    <table class="table" width="960" layoutH="110">
+    <table class="table" width="960" layoutH="136">
         <thead>
         <tr>
             <th width="100">姓名</th>

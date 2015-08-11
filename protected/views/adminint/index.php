@@ -21,7 +21,7 @@
             <li><a class="add" height="500" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('adminint/add');?>"><span>添加</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="1100" layoutH="76">
+	<table class="table" width="1100" layoutH="112">
 		<thead>
 			<tr>
 				<th width="80">品牌</th>
