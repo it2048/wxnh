@@ -41,7 +41,7 @@
 	</form>
 </div>
 <div class="pageContent">
-	<table class="table" width="900" layoutH="76">
+	<table class="table" width="900" layoutH="110">
 		<thead>
 			<tr>
 				<th width="140">时间</th>

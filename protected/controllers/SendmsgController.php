@@ -21,7 +21,7 @@ class SendmsgController extends AdminSet{
         //先获取当前是否有页码信息
         $pages['pageNum'] = Yii::app()->getRequest()->getParam("pageNum", 1); //当前页
         $pages['countPage'] = Yii::app()->getRequest()->getParam("countPage", 0); //总共多少记录
-        $pages['numPerPage'] = Yii::app()->request->getParam("numPerPage",30); // 每页显示多少条
+        $pages['numPerPage'] = Yii::app()->request->getParam("numPerPage",100); // 每页显示多少条
 
         $pages['send_id'] = Yii::app()->getRequest()->getParam("send_id", ""); //按发送方id
         $pages['receive_id'] = Yii::app()->getRequest()->getParam("receive_id", ""); //按接收方id
