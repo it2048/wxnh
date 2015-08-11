@@ -5,8 +5,16 @@
                 <tbody><tr>
                     <td>
                         员工姓名：<input type="text" name="name" class="textInput" value="<?php echo $pages['name'];?>">
+                    </td>
+                    <td>
                         当前面试阶段：<input type="text" name="stage" class="textInput" value="<?php echo $pages['stage'];?>">
+                    </td> <td>
                         面试职位：<input type="text" name="empty_name" class="textInput" value="<?php echo $pages['empty_name'];?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        员工电话：<input type="text" name="tel" class="textInput" value="<?php echo $pages['tel'];?>">
                     </td>
                     <td><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></td>
                 </tr>
