@@ -51,16 +51,16 @@
                 <td><?php echo $value['dm'];?></td>
                 <td><?php echo empty($userList[$value['zmzy']])?$value['zmzy']:$userList[$value['zmzy']];?></td>
                 <td><?php echo $value['city'];?></td>
-                <td><?php echo date('Y-m-d H:i:s',$value['hr_time']); ?></td>
+                <td><?php echo date('Y-m-d',$value['hr_time']); ?></td>
                 <td><?php echo $value['am_sge'];?></td>
-                <td><?php echo date('Y-m-d H:i:s',$value['am_time']); ?></td>
+                <td><?php echo date('Y-m-d',$value['am_time']); ?></td>
                 <td><?php echo $value['am_add'];?></td>
                 <td><?php echo $value['am_people'];?></td>
                 <td><?php echo $value['oje_ct'];?></td>
-                <td><?php echo date('Y-m-d H:i:s',$value['oje_time']);?></td>
+                <td><?php echo date('Y-m-d',$value['oje_time']);?></td>
                 <td><?php echo $value['oje_add']; ?></td>
                 <td><?php echo $value['oje_people'];?></td>
-                <td><?php echo date('Y-m-d H:i:s',$value['dm_time']);?></td>
+                <td><?php echo date('Y-m-d',$value['dm_time']);?></td>
                 <td><?php echo $value['dm_add'];?></td>
                 <td><?php echo $value['dm_people'];?></td>
                 <td><?php echo $value['month'];?></td>

@@ -20,7 +20,7 @@
             </p>
             <p>
                 <label>HR时间：</label>
-                <input  name="hr_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="">
+                <input  name="hr_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="">
             </p>
             <p>
                 <label>建议AM：</label>
@@ -28,7 +28,7 @@
             </p>
             <p>
                 <label>AM时间：</label>
-                <input  name="am_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="">
+                <input  name="am_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="">
             </p>
             <p>
                 <label>AM地址：</label>
@@ -44,7 +44,7 @@
             </p>
             <p>
                 <label>OJE开始时间：</label>
-                <input  name="oje_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="">
+                <input  name="oje_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="">
             </p>
             <p>
                 <label>OJE地址：</label>
@@ -56,7 +56,7 @@
             </p>
             <p>
                 <label>DM时间：</label>
-                <input  name="dm_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="">
+                <input  name="dm_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="">
             </p>
             <p>
                 <label>DM地址：</label>

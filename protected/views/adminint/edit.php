@@ -22,7 +22,7 @@
             </p>
             <p>
                 <label>HR时间：</label>
-                <input  name="hr_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->hr_time);?>">
+                <input  name="hr_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<?php echo date('Y-m-d',$model->hr_time);?>">
             </p>
             <p>
                 <label>建议AM：</label>
@@ -30,7 +30,7 @@
             </p>
             <p>
                 <label>AM时间：</label>
-                <input  name="am_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->am_time);?>">
+                <input  name="am_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<?php echo date('Y-m-d',$model->am_time);?>">
             </p>
             <p>
                 <label>AM地址：</label>
@@ -46,7 +46,7 @@
             </p>
             <p>
                 <label>OJE开始时间：</label>
-                <input  name="oje_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->oje_time);?>">
+                <input  name="oje_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<?php echo date('Y-m-d',$model->oje_time);?>">
             </p>
             <p>
                 <label>OJE地址：</label>
@@ -58,7 +58,7 @@
             </p>
             <p>
                 <label>DM时间：</label>
-                <input  name="dm_time" type="text" class="date" dateFmt="yyyy-MM-dd HH:mm" readonly="true" value="<?php echo date('Y-m-d H:i:s',$model->dm_time);?>">
+                <input  name="dm_time" type="text" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<?php echo date('Y-m-d',$model->dm_time);?>">
             </p>
             <p>
                 <label>DM地址：</label>

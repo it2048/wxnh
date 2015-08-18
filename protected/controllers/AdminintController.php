@@ -117,15 +117,15 @@ class AdminintController extends AdminSet
             'dm_people' => $dm_people,
         );
 
-        if($data['hr_time']>$data['am_time']-172800)
+        if($data['hr_time']<$data['am_time'])
         {
-            $msg['msg'] = 'am时间与hr时间间隔不能低于两天';
-        }elseif($data['am_time']>$data['oje_time']-172800)
+            $msg['msg'] = 'am时间不能小于hr时间';
+        }elseif($data['am_time']<$data['oje_time'])
         {
-            $msg['msg'] = 'oje时间与am时间间隔不能低于两天';
-        }elseif($data['oje_time']>$data['dm_time']-172800)
+            $msg['msg'] = 'oje时间不能小于am时间';
+        }elseif($data['oje_time']<$data['dm_time'])
         {
-            $msg['msg'] = 'dm时间与oje时间间隔不能低于两天';
+            $msg['msg'] = 'dm时间不能小于oje时间';
         }else
         {
             $kk = new WxInterview();
@@ -189,15 +189,15 @@ class AdminintController extends AdminSet
                 'dm_people' => $dm_people,
             );
 
-            if($data['hr_time']>$data['am_time']-172800)
+            if($data['hr_time']<$data['am_time'])
             {
-                $msg['msg'] = 'am时间与hr时间间隔不能低于两天';
-            }elseif($data['am_time']>$data['oje_time']-172800)
+                $msg['msg'] = 'am时间不能小于hr时间';
+            }elseif($data['am_time']<$data['oje_time'])
             {
-                $msg['msg'] = 'oje时间与am时间间隔不能低于两天';
-            }elseif($data['oje_time']>$data['dm_time']-172800)
+                $msg['msg'] = 'oje时间不能小于am时间';
+            }elseif($data['oje_time']<$data['dm_time'])
             {
-                $msg['msg'] = 'dm时间与oje时间间隔不能低于两天';
+                $msg['msg'] = 'dm时间不能小于oje时间';
             }else
             {
                 foreach($data as $k=>$val)
@@ -234,6 +234,57 @@ class AdminintController extends AdminSet
         }
         echo json_encode($msg);
         Yii::app()->end();
+    }
+
+    public function actionExp()
+    {
+        $allList = AppBsContracts::model()->findAll();
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="劳动合同追踪信息表.csv"');
+        header('Cache-Control: max-age=0');
+        $fp = fopen('php://output', 'a');
+        // 输出Excel列名信息
+        $arr = TempList::$Contracts;
+        array_push($arr,"导入时间");
+        array_push($arr,"邮寄时间");
+        array_push($arr,"餐厅处理时间");
+        array_push($arr,"餐厅处理状态");
+
+        $head = $arr;
+        foreach ($head as $i => $v) {
+            // CSV的Excel支持GBK编码，一定要转换，否则乱码
+            $head[$i] = iconv('utf-8', 'gbk', $v);
+        }
+        // 将数据通过fputcsv写到文件句柄
+        fputcsv($fp, $head);
+        // 计数器
+        $cnt = 0;
+        // 每隔$limit行，刷新一下输出buffer，不要太大，也不要太小
+        $limit = 100000;
+
+        foreach($allList as $value)
+        {
+            $cnt ++;
+            if ($limit == $cnt) { //刷新一下输出buffer，防止由于数据过多造成问题
+                ob_flush();
+                flush();
+                $cnt = 0;
+            }
+
+            $dearr = explode("|",$value->desc);
+
+            $row = array(-1=>$value['bm_id'])+$dearr+array(
+                    19=>empty($value['dr_time'])?"":date("Y-m-d H:i:s",$value['dr_time']),
+                    20=>empty($value['yj_time'])?"":date("Y-m-d H:i:s",$value['yj_time']),
+                    21=>empty($value['ct_time'])?"":date("Y-m-d H:i:s",$value['ct_time']),
+                    22=>TempList::$ct_status[$value['stage']]
+                );
+            foreach ($row as $i => $v) {
+                // CSV的Excel支持GBK编码，一定要转换，否则乱码
+                $row[$i] = iconv('utf-8', 'gbk', $v);
+            }
+            fputcsv($fp, $row);
+        }
     }
 
 }
