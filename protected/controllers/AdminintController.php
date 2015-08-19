@@ -238,17 +238,13 @@ class AdminintController extends AdminSet
 
     public function actionExp()
     {
-        $allList = AppBsContracts::model()->findAll();
+        $allList = WxInterview::model()->findAll("1 order by month desc");
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="劳动合同追踪信息表.csv"');
+        header('Content-Disposition: attachment;filename="招募计划管理.csv"');
         header('Cache-Control: max-age=0');
         $fp = fopen('php://output', 'a');
         // 输出Excel列名信息
-        $arr = TempList::$Contracts;
-        array_push($arr,"导入时间");
-        array_push($arr,"邮寄时间");
-        array_push($arr,"餐厅处理时间");
-        array_push($arr,"餐厅处理状态");
+        $arr = explode(",","品牌,DM,招募专员,城市,HR时间,建议AM,AM时间,AM地址,AM人数,OJE餐厅,OJE开始时间,OJE地址,OJE人数,DM时间,DM地址,DM人数,计划表月份");
 
         $head = $arr;
         foreach ($head as $i => $v) {
@@ -261,6 +257,24 @@ class AdminintController extends AdminSet
         $cnt = 0;
         // 每隔$limit行，刷新一下输出buffer，不要太大，也不要太小
         $limit = 100000;
+        $mo = new Homeconf();
+        $lst = $mo->getList();
+
+        $tel = "";
+        foreach($allList as $val)
+        {
+            $tel .= sprintf('"%s",',$val->zmzy);
+        }
+        $tel = rtrim($tel,",");
+        $hkList = array();
+        if(!empty($tel))
+        {
+            $hook = WxAdmin::model()->findAll("username in({$tel})");
+            foreach($hook as $value)
+            {
+                $hkList[$value->username] = $value->name;
+            }
+        }
 
         foreach($allList as $value)
         {
@@ -271,14 +285,14 @@ class AdminintController extends AdminSet
                 $cnt = 0;
             }
 
-            $dearr = explode("|",$value->desc);
-
-            $row = array(-1=>$value['bm_id'])+$dearr+array(
-                    19=>empty($value['dr_time'])?"":date("Y-m-d H:i:s",$value['dr_time']),
-                    20=>empty($value['yj_time'])?"":date("Y-m-d H:i:s",$value['yj_time']),
-                    21=>empty($value['ct_time'])?"":date("Y-m-d H:i:s",$value['ct_time']),
-                    22=>TempList::$ct_status[$value['stage']]
+            $row = array(empty($lst[$value['brand']])?$value['brand']:$lst[$value['brand']],$value['dm']
+                ,empty($hkList[$value['zmzy']])?$value['zmzy']:$hkList[$value['zmzy']],$value['city'],
+                date('Y-m-d',$value['hr_time']),$value['am_sge'],date('Y-m-d',$value['am_time']),
+                $value['am_add'],$value['am_people'],$value['oje_ct'],
+                date('Y-m-d',$value['oje_time']),$value['oje_add'],$value['oje_people'],
+                date('Y-m-d',$value['dm_time']),$value['dm_add'],$value['dm_people'],$value['month']
                 );
+            print_r($row);die();
             foreach ($row as $i => $v) {
                 // CSV的Excel支持GBK编码，一定要转换，否则乱码
                 $row[$i] = iconv('utf-8', 'gbk', $v);

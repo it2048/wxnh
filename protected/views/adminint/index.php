@@ -19,7 +19,9 @@
 	<div class="panelBar">
 		<ul class="toolBar">
             <li><a class="add" height="500" target="dialog" href="<?php echo Yii::app()->createAbsoluteUrl('adminint/add');?>"><span>添加</span></a></li>
-		</ul>
+            <li><a class="icon" href="<?php echo Yii::app()->createAbsoluteUrl('adminint/exp');?>" target="dwzExport" targetType="navTab" title="导出招募计划"><span>导出招募计划</span></a></li>
+
+        </ul>
 	</div>
 	<table class="table" width="1100" layoutH="112">
 		<thead>
