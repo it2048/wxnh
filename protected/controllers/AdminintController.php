@@ -117,13 +117,13 @@ class AdminintController extends AdminSet
             'dm_people' => $dm_people,
         );
 
-        if($data['hr_time']<$data['am_time'])
+        if($data['hr_time']>$data['am_time'])
         {
             $msg['msg'] = 'am时间不能小于hr时间';
-        }elseif($data['am_time']<$data['oje_time'])
+        }elseif($data['am_time']>$data['oje_time'])
         {
             $msg['msg'] = 'oje时间不能小于am时间';
-        }elseif($data['oje_time']<$data['dm_time'])
+        }elseif($data['oje_time']>$data['dm_time'])
         {
             $msg['msg'] = 'dm时间不能小于oje时间';
         }else
@@ -189,13 +189,13 @@ class AdminintController extends AdminSet
                 'dm_people' => $dm_people,
             );
 
-            if($data['hr_time']<$data['am_time'])
+            if($data['hr_time']>$data['am_time'])
             {
                 $msg['msg'] = 'am时间不能小于hr时间';
-            }elseif($data['am_time']<$data['oje_time'])
+            }elseif($data['am_time']>$data['oje_time'])
             {
                 $msg['msg'] = 'oje时间不能小于am时间';
-            }elseif($data['oje_time']<$data['dm_time'])
+            }elseif($data['oje_time']>$data['dm_time'])
             {
                 $msg['msg'] = 'dm时间不能小于oje时间';
             }else
