@@ -153,9 +153,8 @@ class WeixinController extends CController{
                                 //$str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                             }else
                             {
-                                $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于%s,餐厅：%s,品牌：%s。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
+                                $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于%s。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
                                     $mel->employee_name,$hook->desc
-                                    ,$inte[0]->oje_ct,$mel->employee_brand
                                 );
                             }
                         }else
