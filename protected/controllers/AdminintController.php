@@ -292,7 +292,6 @@ class AdminintController extends AdminSet
                 date('Y-m-d',$value['oje_time']),$value['oje_add'],$value['oje_people'],
                 date('Y-m-d',$value['dm_time']),$value['dm_add'],$value['dm_people'],$value['month']
                 );
-            print_r($row);die();
             foreach ($row as $i => $v) {
                 // CSV的Excel支持GBK编码，一定要转换，否则乱码
                 $row[$i] = iconv('utf-8', 'gbk', $v);
