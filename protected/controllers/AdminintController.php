@@ -275,7 +275,6 @@ class AdminintController extends AdminSet
                 $hkList[$value->username] = $value->name;
             }
         }
-
         foreach($allList as $value)
         {
             $cnt ++;
