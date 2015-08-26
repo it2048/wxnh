@@ -249,7 +249,7 @@ class AdminintController extends AdminSet
         $head = $arr;
         foreach ($head as $i => $v) {
             // CSV的Excel支持GBK编码，一定要转换，否则乱码
-            $head[$i] = iconv('utf-8', 'gbk', $v);
+            $head[$i] = iconv('utf-8', 'gbk//IGNORE', $v);
         }
         // 将数据通过fputcsv写到文件句柄
         fputcsv($fp, $head);
@@ -284,16 +284,19 @@ class AdminintController extends AdminSet
                 $cnt = 0;
             }
 
-            $row = array(empty($lst[$value['brand']])?$value['brand']:$lst[$value['brand']],$value['dm']
-                ,empty($hkList[$value['zmzy']])?$value['zmzy']:$hkList[$value['zmzy']],$value['city'],
+            $row = array(!isset($lst[$value['brand']])?$value['brand']:$lst[$value['brand']],$value['dm']
+                ,!isset($hkList[$value['zmzy']])?$value['zmzy']:$hkList[$value['zmzy']],$value['city'],
                 date('Y-m-d',$value['hr_time']),$value['am_sge'],date('Y-m-d',$value['am_time']),
                 $value['am_add'],$value['am_people'],$value['oje_ct'],
-                date('Y-m-d',$value['oje_time']),$value['oje_add'],$value['oje_people'],
+                date('Y-m-d',$value['oje_time']),
+                $value['oje_add'],
+                $value['oje_people'],
                 date('Y-m-d',$value['dm_time']),$value['dm_add'],$value['dm_people'],$value['month']
                 );
+
             foreach ($row as $i => $v) {
                 // CSV的Excel支持GBK编码，一定要转换，否则乱码
-                $row[$i] = iconv('utf-8', 'gbk', $v);
+                $row[$i] = iconv('utf-8', 'gbk//IGNORE', $v);
             }
             fputcsv($fp, $row);
         }
