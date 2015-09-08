@@ -125,10 +125,10 @@ class WeixinController extends CController{
             $openid = $this->weixin->_postData->FromUserName."";
             $lst = User::model()->findByPk($openid);
             $mel = WxNewEmployee::model()->find("tel=:tl",array(":tl"=>$lst->tel));
-            if(empty($mel))
+            if(empty($lst->tel))
             {
                 $xml = $this->weixin->outputText("请先完成手机验证，谢谢");
-            }elseif(!in_array($mel->stage,TempList::$Stage))
+            }elseif(empty($mel)||!in_array($mel->stage,TempList::$Stage))
             {
                 $xml = $this->weixin->outputText("抱歉，暂时未查询到您的后续面试安排 ");
             }
