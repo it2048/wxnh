@@ -112,7 +112,7 @@ class WeixinController extends CController{
             $lst = $usr->findByPk($openid);
             if(!empty($lst->tel))
             {
-                $xml = $this->weixin->outputText("您已验证通过，请点击查询按钮");
+                $xml = $this->weixin->outputText("您已验证通过，请点击“面试查询”查看面试结果吧！");
             }else
             {
                 $rds = Yii::app()->redis->getClient();
@@ -125,10 +125,14 @@ class WeixinController extends CController{
             $openid = $this->weixin->_postData->FromUserName."";
             $lst = User::model()->findByPk($openid);
             $mel = WxNewEmployee::model()->find("tel=:tl",array(":tl"=>$lst->tel));
-            if(empty($mel)||!in_array($mel->stage,TempList::$Stage))
+            if(empty($mel))
+            {
+                $xml = $this->weixin->outputText("请先完成手机验证，谢谢");
+            }elseif(!in_array($mel->stage,TempList::$Stage))
             {
                 $xml = $this->weixin->outputText("抱歉，暂时未查询到您的后续面试安排 ");
-            }else
+            }
+            else
             {
                 $brand = Homeconf::model()->findByPk('brand');
                 $arr = explode(",",$brand->value);
@@ -166,10 +170,10 @@ class WeixinController extends CController{
 
                         if(empty($inte))
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            $str = sprintf("恭喜“%s”,初试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
+                            $str = sprintf("恭喜“%s”,初试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
                                 $mel->employee_name,date('Y-m-d',$inte[0]->am_time),$inte[0]->am_add);
                         }
                     }elseif($mel->stage=="AM面试通过")
@@ -178,10 +182,10 @@ class WeixinController extends CController{
 
                         if(empty($inte))
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            $str = sprintf("恭喜“%s”,复试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s和%s”，地点：%s,%s%s餐厅。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
+                            $str = sprintf("恭喜“%s”,复试通过，下轮面试暂定于“%s和%s”，地点：%s,%s%s餐厅。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
                                 $mel->employee_name,date('Y-m-d',$inte[0]->oje_time),date('Y-m-d',$inte[0]->oje_time+86400),$inte[0]->oje_add
                             ,$mel->employee_brand,$inte[0]->oje_ct
                             );
@@ -193,10 +197,10 @@ class WeixinController extends CController{
 
                         if(empty($inte))
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            $str = sprintf("恭喜“%s”,餐厅试操作通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,本轮面试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
+                            $str = sprintf("恭喜“%s”,餐厅试操作通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
                                 $mel->employee_name,date('Y-m-d',$inte[0]->dm_time),$inte[0]->dm_add);
                         }
                     }elseif($mel->stage=="DM面试通过")
@@ -272,7 +276,7 @@ class WeixinController extends CController{
                     $pl->tel = $str;
                     if($pl->save())
                     {
-                        $xml = $this->weixin->outputText("手机验证成功！请点击“面试查询”查看面试结果吧！");
+                        $xml = $this->weixin->outputText("手机验证成功！请于面试次日9:00后点击“面试查询”查看面试结果吧！");
                         $rds->del($openid);
                     }
                 }
