@@ -65,7 +65,7 @@
                     <td><?php echo $val["email"]; ?></td>
                     <td><?php echo date("Y-m-d H:i:s", $val["tm"]); ?></td>
                     <td>
-                        <a title="删除" target="ajaxTodo" callback="delTags" href="<?php echo Application::$_config['home']['url'] . "/backstage_deltags_" . $val["id"] . ".html"; ?>" class="btnDel">删除</a>
+                        <a title="删除" target="ajaxTodo" callback="delTags" href="<?php echo Application::$_config['home']['url'] . "/index.php/backstage_deltags_" . $val["id"] . ".html"; ?>" class="btnDel">删除</a>
                     </td>
                 </tr>
             <?php } ?>
