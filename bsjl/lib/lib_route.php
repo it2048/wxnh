@@ -13,7 +13,7 @@ final class Route {
     public $route_url = array();
 
     public function __construct() {
-        $this->url_query = empty($_SERVER['REDIRECT_URL'])?"":$_SERVER['REDIRECT_URL'];
+        $this->url_query = empty($_SERVER['REQUEST_URI'])?"":$_SERVER['REQUEST_URI'];
     }
 
     /**
