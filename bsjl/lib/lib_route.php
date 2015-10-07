@@ -90,10 +90,11 @@ final class Route {
     public function pathinfoToArray() {
         $url = strrchr($this->url_query,'/');
         if(!$url||strpos($this->url_query,"public")!==FALSE)$url ="";
-        if(strpos($url,".html"))
+        $stri = strpos($url,".html");
+        if($stri!==false)
         {
             $url = str_replace('/', '',$url);
-            $url = str_replace(".html", '',$url);
+            $url = substr($url, 0,$stri-1);
             $arr = !empty($this->url_query) ? explode('_',$url) : array();
             if(count($arr)>=2)
             {
