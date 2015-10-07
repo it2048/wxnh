@@ -8,16 +8,16 @@
  */
 /* 数据库配置 */
 $CONFIG['system']['db'] = array(
-    'db_host' => 'rdsruq2i3ajqrqj.mysql.rds.aliyuncs.com:3306',
-    'db_user' => 'xflcool',
-    'db_password' => 'xflhyr_276852',
-    'db_database' => 'r962tzfc9t64cd70',
+    'db_host' => '120.25.161.122:33060',
+    'db_user' => 'weixin',
+    'db_password' => 'abcd1234',
+    'db_database' => 'weixin',
 );
 
 /* 博客配置 */
 $CONFIG['system']['home'] = array(
-    'url' => 'http://bsjl.it2048.cn',
-    'urltmp' => 'bsjl.it2048.cn'
+    'url' => 'http://120.25.161.122/wx/bsjl',
+    'urltmp' => '120.25.161.122/wx/bsjl'
 );
 
 /* 博客特殊参数 */
