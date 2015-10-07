@@ -39,7 +39,7 @@
 			</div>
 			 <ul>
 				<li>
-					<a class="btn btn-intro" href="<?php echo Application::$_config['home']['url']; ?>/send_.html">我要推荐</a>
+					<a class="btn btn-intro" href="<?php echo Application::$_config['home']['url']; ?>/index.php/send_.html">我要推荐</a>
 				</li>
 			</ul>
 		</div>

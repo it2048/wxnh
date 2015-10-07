@@ -21,7 +21,7 @@
             $("#ukeyalert").html("请输入帐号");
             return false;
         }
-        $.get("<?php echo Application::$_config['home']['url']; ?>/login_upld_"+wav_name+"_"+vav_key+".html",function(data){
+        $.get("<?php echo Application::$_config['home']['url']; ?>/index.php/login_upld_"+wav_name+"_"+vav_key+".html",function(data){
             var rtmsg = data.split(":");
             if(rtmsg[0]=="0")
             {

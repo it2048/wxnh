@@ -1,5 +1,5 @@
 <div class="pageHeader">
-    <form id="pagerForm" onsubmit="return navTabSearch(this, 'artpush');" method="post" action="<?php echo Application::$_config['home']['url']; ?>/backstage_registration.html" >
+    <form id="pagerForm" onsubmit="return navTabSearch(this, 'artpush');" method="post" action="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_registration.html" >
         <div class="searchBar">
             <table class="searchContent">
                 <tbody><tr>
@@ -22,7 +22,7 @@
         </div>
     </form>
 </div>
-<form id="tmp" method="post" action="<?php echo Application::$_config['home']['url']; ?>/backstage_explore.html" >
+<form id="tmp" method="post" action="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_explore.html" >
     <div class="searchBar">
         <input type="hidden" name="sttime"/>
         <input type="hidden" name="edttime"/>
@@ -31,7 +31,7 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add" height="340" href="<?php echo Application::$_config['home']['url']; ?>/backstage_addtags.html" target="dialog" rel="dlg_page8" mask="true"><span>添加</span></a></li>
+            <li><a class="add" height="340" href="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_addtags.html" target="dialog" rel="dlg_page8" mask="true"><span>添加</span></a></li>
             <li><a title="确实要删除这些记录吗?" target="selectedTodo" postType="string" callback="batdelTags" rel="ids" href="<?php echo Application::$_config['home']['url']; ?>/backstage_batdeltags.html" class="delete"><span>批量删除</span></a></li>
         </ul>
     </div>

@@ -1,5 +1,5 @@
 <div class="pageContent">
-    <form method="post" action="<?php echo Application::$_config['home']['url']; ?>/backstage_addtag.html" class="pageForm required-validate" onsubmit="return validateCallback(this, closeAddtags);">
+    <form method="post" action="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_addtag.html" class="pageForm required-validate" onsubmit="return validateCallback(this, closeAddtags);">
         <div class="pageFormContent" layoutH="56">
             <p>
                 <label>姓名：</label>

@@ -1,5 +1,5 @@
 <div class="pageHeader">
-    <form id="pagerForm" onsubmit="return navTabSearch(this, 'recommend');" method="post" action="<?php echo Application::$_config['home']['url']; ?>/backstage_recommend.html" >
+    <form id="pagerForm" onsubmit="return navTabSearch(this, 'recommend');" method="post" action="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_recommend.html" >
         <div class="searchBar">
             <table class="searchContent">
                 <tbody><tr>
@@ -22,7 +22,7 @@
         </div>
     </form>
 </div>
-<form id="tmp" method="post" action="<?php echo Application::$_config['home']['url']; ?>/backstage_exploretj.html" >
+<form id="tmp" method="post" action="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_exploretj.html" >
     <div class="searchBar">
         <input type="hidden" name="sttime"/>
         <input type="hidden" name="edttime"/>
@@ -31,7 +31,7 @@
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a title="确实要删除这些记录吗?" target="selectedTodo" postType="string" callback="batdelTags" rel="ids" href="<?php echo Application::$_config['home']['url']; ?>/backstage_tjbatdeltags.html" class="delete"><span>批量删除</span></a></li>
+            <li><a title="确实要删除这些记录吗?" target="selectedTodo" postType="string" callback="batdelTags" rel="ids" href="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_tjbatdeltags.html" class="delete"><span>批量删除</span></a></li>
         </ul>
     </div>
     <table class="table" width="1000" layoutH="112">
@@ -62,7 +62,7 @@
                     <td><?php echo $val["qlm_city"]; ?></td>
                     <td><?php echo date("Y-m-d H:i:s", $val["tm"]); ?></td>
                     <td>
-                        <a title="删除" target="ajaxTodo" callback="delTags" href="<?php echo Application::$_config['home']['url'] . "/backstage_tjdeltags_" . $val["id"] . ".html"; ?>" class="btnDel">删除</a>
+                        <a title="删除" target="ajaxTodo" callback="delTags" href="<?php echo Application::$_config['home']['url'] . "/index.php/backstage_tjdeltags_" . $val["id"] . ".html"; ?>" class="btnDel">删除</a>
                     </td>
                 </tr>
             <?php } ?>

@@ -12,7 +12,7 @@
 <body>
 <div class="g-mn5">
         <div class="m-form">
-    <form name="frm" action="<?php echo Application::$_config['home']['url']; ?>/login_addtag.html" method="post">
+    <form name="frm" action="<?php echo Application::$_config['home']['url']; ?>/index.php/login_addtag.html" method="post">
         <fieldset>
             <legend class="ui-yip">请提供以下信息以便于我们联系您</legend>
             <div class="formitm">

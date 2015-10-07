@@ -65,8 +65,8 @@
                             <ul class="tree treeFolder">
                                 <li><a href="#">简历管理</a>
                                     <ul>
-                                        <li><a href="<?php echo Application::$_config['home']['url']; ?>/backstage_registration.html" target="navTab" rel="artpush">简历查看</a></li>
-                                        <li><a href="<?php echo Application::$_config['home']['url']; ?>/backstage_recommend.html" target="navTab" rel="recommend">推荐简历查看</a></li>
+                                        <li><a href="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_registration.html" target="navTab" rel="artpush">简历查看</a></li>
+                                        <li><a href="<?php echo Application::$_config['home']['url']; ?>/index.php/backstage_recommend.html" target="navTab" rel="recommend">推荐简历查看</a></li>
                                     </ul>
                                 </li>
                             </ul>
