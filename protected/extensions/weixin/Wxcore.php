@@ -25,7 +25,7 @@ class Wxcore {
         {
             //微信认证参数获取接口，该认证参数30分钟失效
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $wx['APPID'] . "&secret=" . $wx['APPSECRET'];
-            $content = file_get_contents($url);
+            $content = $this->http_request($url);
             $ret = json_decode($content, true);
             if (!array_key_exists('errcode', $ret)) {
                 $this->_ACCESS_TOKEN = $ret['access_token']; 
@@ -33,6 +33,37 @@ class Wxcore {
                 Yii::app()->redis->getClient()->setex("access_token",7000,$ret['access_token']);
             }
         }
+    }
+
+    public function http_request($url,$timeout=30,$header=array()){
+        if (!function_exists('curl_init')) {
+            throw new Exception('server not install curl');
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        if (!empty($header)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        }
+        $data = curl_exec($ch);
+        list($header, $data) = explode("\r\n\r\n", $data);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($http_code == 301 || $http_code == 302) {
+            $matches = array();
+            preg_match('/Location:(.*?)\n/', $header, $matches);
+            $url = trim(array_pop($matches));
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            $data = curl_exec($ch);
+        }
+
+        if ($data == false) {
+            curl_close($ch);
+        }
+        @curl_close($ch);
+        return $data;
     }
 
     /**
@@ -85,7 +116,7 @@ class Wxcore {
      */
     public function getMenu() {
         $url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" . $this->_ACCESS_TOKEN;
-        $content = file_get_contents($url);
+        $content = $this->http_request($url);
         if (strpos($content, 'errcode') === false) {
             return $content;
         } else {
@@ -99,7 +130,7 @@ class Wxcore {
      */
     public function deleteMenu() {
         $url = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=" . $this->_ACCESS_TOKEN;
-        $content = file_get_contents($url);
+        $content = $this->http_request($url);
         $ret = json_decode($content, true);
         if ($ret['errcode'] == 0) {
             return true;
@@ -153,7 +184,7 @@ class Wxcore {
     public function getGroup()
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/groups/get?access_token='. $this->_ACCESS_TOKEN;
-        $content = file_get_contents($url);
+        $content = $this->http_request($url);
         $ret = json_decode($content, true);
         if (array_key_exists('errcode',$ret) === false) {
             return $ret;
@@ -250,7 +281,7 @@ class Wxcore {
     public function getUsrinfo($usrid,$lang="zh_CN")
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='. $this->_ACCESS_TOKEN.'&openid='.$usrid.'&lang='.$lang;
-        $content = file_get_contents($url);
+        $content = $this->http_request($url);
         $ret = json_decode($content, true);
         if (array_key_exists('errcode',$ret) === false) {
             return $ret;
@@ -267,7 +298,7 @@ class Wxcore {
     {
         
         $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='. $this->_ACCESS_TOKEN.'&next_openid=';
-        $content = file_get_contents($url);
+        $content = $this->http_request($url);
         $ret = json_decode($content, true);
         if (array_key_exists('errcode',$ret) === false) {
             //接口每次只能取10000的数据
@@ -275,7 +306,7 @@ class Wxcore {
             $open = $ret['data']['openid'];
             while($i>0)
             {
-                $cnt = file_get_contents($url.$ret['next_openid']);
+                $cnt = $this->http_request($url.$ret['next_openid']);
                 $retn = json_decode($cnt, true);
                 if (array_key_exists('errcode',$retn) === false) {
                         $open .= $retn['data']['openid'];
@@ -294,7 +325,8 @@ class Wxcore {
     public function sendText($arr)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='. $this->_ACCESS_TOKEN;
-        $jsn = '{"touser":"'.$arr['userid'].'","msgtype":"text","text":{"content":"'.$arr['content'].'"}}';
+        $jsn = json_encode(array("touser"=>$arr['userid'],"msgtype"=>"text","text"=>array("content"=>$arr['content'])));
+        //$jsn = '{"touser":"'.$arr['userid'].'","msgtype":"text","text":{"content":"'.$arr['content'].'"}}';
         $content = $this->curl_post($url, $jsn);
         $ret = json_decode($content, true);
         if ($ret['errcode'] == 0) {

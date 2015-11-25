@@ -26,6 +26,7 @@ class UserController extends AdminSet
         $pages['us_nc'] = Yii::app()->getRequest()->getParam("us_nc", ""); //总共多少记录
         $pages['us_name'] = Yii::app()->getRequest()->getParam("us_name", ""); //总共多少记录
         $pages['us_tel'] = Yii::app()->getRequest()->getParam("us_tel", ""); //总共多少记录
+        $pages['wx_id'] = Yii::app()->getRequest()->getParam("wx_id", ""); //总共多少记录
 
         $str = "";
         if(!empty($pages['us_nc']))
@@ -34,6 +35,8 @@ class UserController extends AdminSet
             $str = " and b.`name` like '%{$pages['us_name']}%' ";
         if(!empty($pages['us_tel']))
             $str = " and b.`tel` like '%{$pages['us_tel']}%' ";
+        if(!empty($pages['wx_id']))
+            $str = " and b.`open_id`='{$pages['wx_id']}' ";
 
         //构造SQL
         $criteria = new CDbCriteria;

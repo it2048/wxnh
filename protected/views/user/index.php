@@ -2,15 +2,21 @@
     <form  id="pagerForm" onsubmit="return navTabSearch(this);" action="<?php echo Yii::app()->createAbsoluteUrl('user/index'); ?>" method="post">
         <div class="searchBar">
             <table class="searchContent">
-                <tbody><tr>
+                <tbody>
+                <tr>
+                    <td>
+                        电话：<input type="text" name="us_tel" size="36" class="textInput" value="<?php echo $pages['us_tel'];?>">
+                    </td>
                     <td>
                         昵称：<input type="text" name="us_nc" class="textInput" value="<?php echo $pages['us_nc'];?>">
                     </td>
                     <td>
                         姓名：<input type="text" name="us_name" class="textInput" value="<?php echo $pages['us_name'];?>">
                     </td>
+                </tr>
+                <tr>
                     <td>
-                        电话：<input type="text" name="us_tel" class="textInput" value="<?php echo $pages['us_tel'];?>">
+                        编号：<input type="text" name="wx_id" size="36" class="textInput" value="<?php echo $pages['wx_id'];?>">
                     </td>
                     <td><div class="buttonActive"><div class="buttonContent"><button type="submit">搜索</button></div></div></td>
                 </tr>
@@ -30,7 +36,7 @@
             <li><a class="add" target="ajaxTodo" callback="updateUsr" href="<?php echo Yii::app()->createAbsoluteUrl('user/getNewUser');?>"><span>获取关注人列表</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="960" layoutH="110">
+	<table class="table" width="960" layoutH="136">
 		<thead>
 			<tr>
 				<th width="100">微信昵称</th>
@@ -67,12 +73,12 @@
             <?php }?>
 		</tbody>
 	</table>
-	<div class="panelBar">
-            <div class="pages">
-                <span>共<?php echo $pages['countPage'];?>条</span>
-            </div>        
-        <div class="pagination" targetType="navTab" totalCount="<?php echo $pages['countPage'];?>" numPerPage="<?php echo $pages['numPerPage'];?>" pageNumShown="<?php echo $pages['numPerPage'];?>" currentPage="<?php echo $pages['pageNum'];?>"></div>
-	</div>
+    <div class="panelBar">
+        <div class="pages">
+            <span>共<?php echo $pages['countPage'];?>条</span>
+        </div>
+        <div class="pagination" targetType="navTab" totalCount="<?php echo $pages['countPage'];?>" numPerPage="<?php echo $pages['numPerPage'];?>" pageNumShown="10" currentPage="<?php echo $pages['pageNum'];?>"></div>
+    </div>
 </div>
 <script type="text/javascript">
 /**
