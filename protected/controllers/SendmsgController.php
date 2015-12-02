@@ -26,8 +26,8 @@ class SendmsgController extends AdminSet{
         $pages['send_id'] = Yii::app()->getRequest()->getParam("send_id", ""); //按发送方id
         $pages['receive_id'] = Yii::app()->getRequest()->getParam("receive_id", ""); //按接收方id
         $pages['content'] = Yii::app()->getRequest()->getParam("content", ""); //按文档like匹配
-        $pages['tmstart'] = Yii::app()->getRequest()->getParam("tmstart", ""); //按开始时间
-        $pages['tmstop'] = Yii::app()->getRequest()->getParam("tmstop", ""); //按结束时间
+        $pages['tmstart'] = Yii::app()->getRequest()->getParam("tmstart", date('Y-m-d H:i:s',strtotime("-1 mon"))); //按开始时间
+        $pages['tmstop'] = Yii::app()->getRequest()->getParam("tmstop", date('Y-m-d H:i:s')); //按结束时间
         
         //构造SQL
         $criteria = new CDbCriteria;

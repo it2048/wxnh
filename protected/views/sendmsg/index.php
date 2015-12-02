@@ -65,10 +65,10 @@
             <?php }?>
 		</tbody>
 	</table>
-	<div class="panelBar">
-            <div class="pages">
-                <span>共<?php echo $pages['countPage'];?>条</span>
-            </div>        
-        <div class="pagination" targetType="navTab" totalCount="<?php echo $pages['countPage'];?>" numPerPage="<?php echo $pages['numPerPage'];?>" pageNumShown="<?php echo $pages['numPerPage'];?>" currentPage="<?php echo $pages['pageNum'];?>"></div>
-	</div>
+    <div class="panelBar">
+        <div class="pages">
+            <span>共<?php echo $pages['countPage'];?>条</span>
+        </div>
+        <div class="pagination" targetType="navTab" totalCount="<?php echo $pages['countPage'];?>" numPerPage="<?php echo $pages['numPerPage'];?>" pageNumShown="10" currentPage="<?php echo $pages['pageNum'];?>"></div>
+    </div>
 </div>
