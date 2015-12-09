@@ -170,7 +170,7 @@ class WeixinController extends CController{
 
                         if(empty($inte))
                         {
-                            $str = sprintf("恭喜“%s”,初试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            $str = sprintf("恭喜“%s”,初试通过，我们将尽快为你安排复试！ ",$mel->employee_name);
                         }else
                         {
                             $str = sprintf("恭喜“%s”,初试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
@@ -182,7 +182,7 @@ class WeixinController extends CController{
 
                         if(empty($inte))
                         {
-                            $str = sprintf("恭喜“%s”,复试通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            $str = sprintf("恭喜“%s”,复试通过，下轮面试为餐厅试操作，请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！ ",$mel->employee_name);
                         }else
                         {
                             $str = sprintf("恭喜“%s”,复试通过，下轮面试暂定于“%s和%s”，地点：%s,%s%s餐厅。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
@@ -197,7 +197,7 @@ class WeixinController extends CController{
 
                         if(empty($inte))
                         {
-                            $str = sprintf("恭喜“%s”,餐厅试操作通过，但暂时未查询到您的后续面试安排，请通过微信咨询我们 ",$mel->employee_name);
+                            $str = sprintf("恭喜“%s”,餐厅试操作通过，我们将尽快为你安排终试！ ",$mel->employee_name);
                         }else
                         {
                             $str = sprintf("恭喜“%s”,餐厅试操作通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
