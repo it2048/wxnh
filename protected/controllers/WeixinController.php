@@ -81,7 +81,7 @@ class WeixinController extends CController{
 //            //$xml = $this->weixin->outputText('二维码参数为:'.$this->weixin->_postData->EventKey);
 //        }
 //        else
-        $xml = $this->weixin->outputText("谢谢关注");
+        $xml = $this->news();
         $usr = new User();
         $usr->insertOne($this->weixin->_postData->FromUserName);
         return $xml;
@@ -299,22 +299,22 @@ class WeixinController extends CController{
         $msg = sprintf("您的手机号为：%s 验证码为：%s",$tel,$code);
         file_put_contents('d:/t.log',$msg."\r\n",8);
     }
-//    /**
-//     * 单条新闻
-//     * @return xml对象 
-//     */
-//    private function news() {
-//        $text = 'QQ黄钻、蓝钻、红钻、绿钻或10Q币任选其一';
-//        $posts = array(
-//            array(
-//                'title' => '福利来了',
-//                'discription' => $text,
-//                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/PH6G9amqVAl40VOFOdDwKfFiaZ4VW5gwPjuV992SN7zXI3OmDriaBjlLSwzmAbLk1gXJTX4WlCMh5nQKQIrGX9Qg/0',
-//                'url' => 'http://mp.weixin.qq.com/s?__biz=MjM5OTY1ODc3NA==&mid=200149478&idx=1&sn=217592c4997ccd57704a0dfe58b65d37#rd',
-//            )
-//        );
-//        return $this->weixin->outputNews($posts);
-//    }
+    /**
+     * 单条新闻
+     * @return xml对象
+     */
+    private function news() {
+        $text = '在百胜，不看专业，不阅颜值，你行，你就上！未毕业即可提前上岗，与全职人员同工同酬。';
+        $posts = array(
+            array(
+                'title' => '百胜面试流程',
+                'discription' => $text,
+                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evWx7jaxreB88l8pIdmMbuwibFhMwUCEsNNu4G29iaZKJpl5A2axv3ZI5A8iaVU7wDc2cJMOzKRb3t8kg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&tp=webp',
+                'url' => 'http://mp.weixin.qq.com/s?__biz=MzA3MDA3OTkwOA==&mid=400843770&idx=1&sn=9690927bf22cd2c105288c5867569924#rd',
+            )
+        );
+        return $this->weixin->outputNews($posts);
+    }
     
 //    /**
 //     * 多条新闻
