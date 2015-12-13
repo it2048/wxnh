@@ -325,8 +325,8 @@ class Wxcore {
     public function sendText($arr)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='. $this->_ACCESS_TOKEN;
-        $jsn = json_encode(array("touser"=>$arr['userid'],"msgtype"=>"text","text"=>array("content"=>$arr['content'])));
-        //$jsn = '{"touser":"'.$arr['userid'].'","msgtype":"text","text":{"content":"'.$arr['content'].'"}}';
+        //$jsn = json_encode(array("touser"=>$arr['userid'],"msgtype"=>"text","text"=>array("content"=>$arr['content'])));
+        $jsn = '{"touser":"'.$arr['userid'].'","msgtype":"text","text":{"content":"'.$arr['content'].'"}}';
         $content = $this->curl_post($url, $jsn);
         $ret = json_decode($content, true);
         if ($ret['errcode'] == 0) {
