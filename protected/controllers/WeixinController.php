@@ -307,7 +307,7 @@ class WeixinController extends CController{
         $text = '在百胜，不看专业，不阅颜值，你行，你就上！未毕业即可提前上岗，与全职人员同工同酬。';
         $posts = array(
             array(
-                'title' => '百胜面试流程',
+                'title' => '欢迎开启百胜“寻味”之旅！',
                 'discription' => $text,
                 'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evWx7jaxreB88l8pIdmMbuwibFhMwUCEsNNu4G29iaZKJpl5A2axv3ZI5A8iaVU7wDc2cJMOzKRb3t8kg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&tp=webp',
                 'url' => 'http://mp.weixin.qq.com/s?__biz=MzA3MDA3OTkwOA==&mid=400843770&idx=1&sn=9690927bf22cd2c105288c5867569924#rd',
