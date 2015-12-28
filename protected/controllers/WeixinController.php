@@ -173,7 +173,7 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,初试通过，我们将尽快为你安排复试！ ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,初试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
+                            $str = sprintf("恭喜“%s”,初试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！若参加请回复“姓名+参加”，谢谢！",
                                 $mel->employee_name,date('Y-m-d',$inte[0]->am_time),$inte[0]->am_add);
                         }
                     }elseif($mel->stage=="AM面试通过")
@@ -309,7 +309,7 @@ class WeixinController extends CController{
             array(
                 'title' => '欢迎开启百胜“寻味”之旅！',
                 'discription' => $text,
-                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evWx7jaxreB88l8pIdmMbuwibFhMwUCEsNNu4G29iaZKJpl5A2axv3ZI5A8iaVU7wDc2cJMOzKRb3t8kg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&tp=webp',
+                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evWJqSg5lxwXLsEeWknjef5nLX4kbM1Jy6pGr7m1TsdibDPVIDDoWkkibS5uUChZABIu0s6aiclZva4ZA/640?wx_fmt=jpeg&tp=webp&wxfrom=5',
                 'url' => 'http://mp.weixin.qq.com/s?__biz=MzA3MDA3OTkwOA==&mid=400843770&idx=1&sn=9690927bf22cd2c105288c5867569924#rd',
             )
         );

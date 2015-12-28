@@ -40,7 +40,7 @@
             </p>
             <p>
                 <label>OJE餐厅：</label>
-                <input  name="oje_ct" type="text" class="required textInput" size="30" value="">
+                <input  name="oje_ct" type="text" class="required textInput" size="30" value="待定">
             </p>
             <p>
                 <label>OJE开始时间：</label>
@@ -48,11 +48,11 @@
             </p>
             <p>
                 <label>OJE地址：</label>
-                <input  name="oje_add" type="text" class="required textInput" size="30" value="">
+                <input  name="oje_add" type="text" class="required textInput" size="30" value="待定">
             </p>
             <p>
                 <label>OJE人数：</label>
-                <input  name="oje_people" type="text" class="required textInput" size="30" value="">
+                <input  name="oje_people" type="text" class="required textInput" size="30" value="0">
             </p>
             <p>
                 <label>DM时间：</label>
@@ -60,11 +60,11 @@
             </p>
             <p>
                 <label>DM地址：</label>
-                <input  name="dm_add" type="text" class="required textInput" size="30" value="">
+                <input  name="dm_add" type="text" class="required textInput" size="30" value="待定">
             </p>
             <p>
                 <label>DM人数：</label>
-                <input  name="dm_people" type="text" class="required textInput" size="30" value="">
+                <input  name="dm_people" type="text" class="required textInput" size="30" value="0">
             </p>
             <p>
                 <label>计划表月份：</label>
