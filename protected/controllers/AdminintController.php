@@ -189,29 +189,19 @@ class AdminintController extends AdminSet
                 'dm_people' => $dm_people,
             );
 
-            if($data['hr_time']>$data['am_time'])
-            {
-                $msg['msg'] = 'am时间不能小于hr时间';
-            }elseif($data['am_time']>$data['oje_time'])
-            {
-                $msg['msg'] = 'oje时间不能小于am时间';
-            }elseif($data['oje_time']>$data['dm_time'])
-            {
-                $msg['msg'] = 'dm时间不能小于oje时间';
-            }else
-            {
-                foreach($data as $k=>$val)
-                {
-                    $kk->$k = $val;
-                }
-                if($kk->save())
-                {
-                    $msg['code'] = 0;
-                }else{
-                    $msg['msg'] = '数据存储时发生错误';
 
-                }
+            foreach($data as $k=>$val)
+            {
+                $kk->$k = $val;
             }
+            if($kk->save())
+            {
+                $msg['code'] = 0;
+            }else{
+                $msg['msg'] = '数据存储时发生错误';
+
+            }
+
         }
         echo json_encode($msg);
     }

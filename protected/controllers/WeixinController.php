@@ -178,35 +178,38 @@ class WeixinController extends CController{
                         }
                     }elseif($mel->stage=="AM面试通过")
                     {
-                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and oje_time>:tm order by oje_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
-
-                        if(empty($inte))
-                        {
-                            $str = sprintf("恭喜“%s”,复试通过，下轮面试为餐厅试操作，请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！ ",$mel->employee_name);
-                        }else
-                        {
-                            $str = sprintf("恭喜“%s”,复试通过，下轮面试暂定于“%s和%s”，地点：%s,%s%s餐厅。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
-                                $mel->employee_name,date('Y-m-d',$inte[0]->oje_time),date('Y-m-d',$inte[0]->oje_time+86400),$inte[0]->oje_add
-                            ,$mel->employee_brand,$inte[0]->oje_ct
-                            );
-
-                        }
+//                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and oje_time>:tm order by oje_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
+//
+//                        if(empty($inte))
+//                        {
+//                            $str = sprintf("恭喜“%s”,复试通过，下轮面试为餐厅试操作，请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！ ",$mel->employee_name);
+//                        }else
+//                        {
+//                            $str = sprintf("恭喜“%s”,复试通过，下轮面试暂定于“%s和%s”，地点：%s,%s%s餐厅。请至疾控中心办理健康证一张，详情请点击招聘面试/健康证办理，办证当日请微信回复“姓名+拿证日期”，谢谢！",
+//                                $mel->employee_name,date('Y-m-d',$inte[0]->oje_time),date('Y-m-d',$inte[0]->oje_time+86400),$inte[0]->oje_add
+//                            ,$mel->employee_brand,$inte[0]->oje_ct
+//                            );
+//
+//                        }
+                        return $this->news_1();
                     }elseif($mel->stage=="OJE通过")
                     {
-                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and dm_time>:tm order by dm_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
-
-                        if(empty($inte))
-                        {
-                            $str = sprintf("恭喜“%s”,餐厅试操作通过，我们将尽快为你安排终试！ ",$mel->employee_name);
-                        }else
-                        {
-                            $str = sprintf("恭喜“%s”,餐厅试操作通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
-                                $mel->employee_name,date('Y-m-d',$inte[0]->dm_time),$inte[0]->dm_add);
-                        }
+//                        $inte = WxInterview::model()->findAll("brand=:bd and city=:ct and dm_time>:tm order by dm_time",array(":bd"=>$tk,":ct"=>$mel->city,":tm"=>time()));
+//
+//                        if(empty($inte))
+//                        {
+//                            $str = sprintf("恭喜“%s”,餐厅试操作通过，我们将尽快为你安排终试！ ",$mel->employee_name);
+//                        }else
+//                        {
+//                            $str = sprintf("恭喜“%s”,餐厅试操作通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！",
+//                                $mel->employee_name,date('Y-m-d',$inte[0]->dm_time),$inte[0]->dm_add);
+//                        }
+                        return $this->news_3();
                     }elseif($mel->stage=="DM面试通过")
                     {
-                        $str = sprintf("恭喜“%s”,您已通过百胜储备经理面试，公司将与您电话确认offer事宜，入职需准备的资料有：
-                        健康证，工行卡，身份证，毕业证，寸照",$mel->employee_name);
+//                        $str = sprintf("恭喜“%s”,您已通过百胜储备经理面试，公司将与您电话确认offer事宜，入职需准备的资料有：
+//                        健康证，工行卡，身份证，毕业证，寸照",$mel->employee_name);
+                        return $this->news_2();
                     }
                     $xml = $this->weixin->outputText($str);
                 }
@@ -315,7 +318,49 @@ class WeixinController extends CController{
         );
         return $this->weixin->outputNews($posts);
     }
-    
+
+    private function news_1()
+    {
+        $text = '恭喜您顺利通过之前的面试环节！接下来，您将参加百胜甄选营运管理人才的特有测试环节-----营运试操作。';
+        $posts = array(
+            array(
+                'title' => 'OJE通关宝典 ',
+                'discription' => $text,
+                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evWJqSg5lxwXLsEeWknjef5nHwE7tb9bYjMEgVWenicf6LfibXdKwmZpQtTQlaXUnVWJ50A9ia8juhibjw/640?wx_fmt=jpeg&tp=webp&wxfrom=5',
+                'url' => 'http://mp.weixin.qq.com/s?__biz=MzA3MDA3OTkwOA==&mid=401090555&idx=1&sn=7bb9445ce78af6859ad5f6d974946280#rd',
+            )
+        );
+        return $this->weixin->outputNews($posts);
+    }
+
+    private function news_2()
+    {
+        $text = '很高兴地通知您，您被聘用为本公司的餐厅储备经理（已大学毕业）/学生直通车储备经理（在校应届生）。';
+        $posts = array(
+            array(
+                'title' => '欢迎加入百胜大家庭！ ',
+                'discription' => $text,
+                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evX5YQ9xGdr2icF9ubIXkbrW5mry8ftcfFPiapiazdicOQEqBY74YXPjbkoGG7LsLfFf9nRy99p7zk8COA/640?wx_fmt=jpeg&tp=webp&wxfrom=5',
+                'url' => 'http://mp.weixin.qq.com/s?__biz=MzA3MDA3OTkwOA==&mid=401131604&idx=1&sn=20f42ff5a05830914349446ac4270f1b#rd',
+            )
+        );
+        return $this->weixin->outputNews($posts);
+    }
+
+    private function news_3()
+    {
+
+        $text = '知彼知已，百战不殆；不知彼知已，一胜一负；不知彼不知已，每战必殆！《孙子兵法.谋攻篇》';
+        $posts = array(
+            array(
+                'title' => '终试秘籍 ',
+                'discription' => $text,
+                'picurl' => 'http://mmbiz.qpic.cn/mmbiz/LEpcyJz5evX5YQ9xGdr2icF9ubIXkbrW5xS9XWCmOW4EomicuOaRzBs9h0wiaaEuTOK8r11OjHwl8tcALzibErzEicw/640?wx_fmt=jpeg&tp=webp&wxfrom=5',
+                'url' => 'http://mp.weixin.qq.com/s?__biz=MzA3MDA3OTkwOA==&mid=401072370&idx=1&sn=36d690b04e0dae9c431ece36471fc644#rd',
+            )
+        );
+        return $this->weixin->outputNews($posts);
+    }
 //    /**
 //     * 多条新闻
 //     * @return xml对象 
