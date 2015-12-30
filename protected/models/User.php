@@ -135,7 +135,7 @@ class User extends CActiveRecord
 
         //判断用户微信id是否存在
         $postid = $this->findByPk($openid);
-        if(empty($postid->open_id))
+        if(empty($postid)&&empty($postid->open_id))
         {
             $ret = new Wxcore(Yii::app()->params['weixin']);
             $usrList = $ret->getUsrinfo($openid);
