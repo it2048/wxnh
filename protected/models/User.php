@@ -133,6 +133,7 @@ class User extends CActiveRecord
      */
     public function insertOne($openid){
 
+        $openid = $openid."";
         //判断用户微信id是否存在
         $postid = $this->findByPk($openid);
         if(empty($postid)&&empty($postid->open_id))
@@ -143,7 +144,7 @@ class User extends CActiveRecord
 
             //新增记录
             $this->open_id = $openid;
-            $this->nickname = $usrList['nickname'];
+            $this->nickname = filter_var($usrList['nickname'], FILTER_SANITIZE_STRIPPED);
             $this->sex = $usrList['sex'];
             $this->city = $usrList['city'];
             $this->province = $usrList['province'];
