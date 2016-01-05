@@ -57,4 +57,37 @@ class CheckInfo {
         }
     }
 
+    public static function filter_utf8_char($ostr){
+        preg_match_all('/[\x{FF00}-\x{FFEF}|\x{0000}-\x{00ff}|\x{4e00}-\x{9fff}]+/u', $ostr, $matches);
+        $str = join('', $matches[0]);
+        if($str==''){
+            $returnstr = '';
+            $i = 0;
+            $str_length = strlen($ostr);
+            while ($i<=$str_length){
+                $temp_str = substr($ostr, $i, 1);
+                $ascnum = Ord($temp_str);
+                if ($ascnum>=224){
+                    $returnstr = $returnstr.substr($ostr, $i, 3);
+                    $i = $i + 3;
+                }elseif ($ascnum>=192){
+                    $returnstr = $returnstr.substr($ostr, $i, 2);
+                    $i = $i + 2;
+                }elseif ($ascnum>=65 && $ascnum<=90){
+                    $returnstr = $returnstr.substr($ostr, $i, 1);
+                    $i = $i + 1;
+                }elseif ($ascnum>=128 && $ascnum<=191){ // 特殊字符
+                    $i = $i + 1;
+                }else{
+                    $returnstr = $returnstr.substr($ostr, $i, 1);
+                    $i = $i + 1;
+                }
+            }
+            $str = $returnstr;
+            preg_match_all('/[\x{FF00}-\x{FFEF}|\x{0000}-\x{00ff}|\x{4e00}-\x{9fff}]+/u', $str, $matches);
+            $str = join('', $matches[0]);
+        }
+        return $str;
+    }
+
 }

@@ -144,7 +144,7 @@ class User extends CActiveRecord
 
             //新增记录
             $this->open_id = $openid;
-            $this->nickname = filter_var($usrList['nickname'], FILTER_SANITIZE_STRIPPED);
+            $this->nickname = CheckInfo::filter_utf8_char($usrList['nickname']);//filter_var($usrList['nickname'], FILTER_SANITIZE_STRIPPED);
             $this->sex = $usrList['sex'];
             $this->city = $usrList['city'];
             $this->province = $usrList['province'];
