@@ -106,7 +106,7 @@ class Msg extends CActiveRecord
         $this->receive_id = $arr->ToUserName;
         $this->tm = intval($arr->CreateTime);
         $this->type = $arr->MsgType;
-        $this->content = $arr->Content;
+        $this->content = CheckInfo::filter_utf8_char($arr->Content);
         $this->send_id = $arr->FromUserName;
         $this->setIsNewRecord(true);
         $this->save();
