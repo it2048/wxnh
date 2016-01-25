@@ -173,8 +173,8 @@ class WeixinController extends CController{
                             $str = sprintf("恭喜“%s”,初试通过，我们将尽快为你安排复试！ ",$mel->employee_name);
                         }else
                         {
-                            $str = sprintf("恭喜“%s”,初试通过，下轮面试暂定于“%s、%s”，请提前做好相关准备！若参加请回复“姓名+参加”，谢谢！",
-                                $mel->employee_name,date('Y-m-d',$inte[0]->am_time),$inte[0]->am_add);
+                            $str = sprintf("恭喜“%s”,初试通过，下轮面试暂定于“%s，%s”，请提前做好相关准备！若参加请回复“姓名+参加”，谢谢！",
+                                $mel->employee_name,date('m月d日',$inte[0]->am_time),$inte[0]->am_add);
                         }
                     }elseif($mel->stage=="AM面试通过")
                     {
