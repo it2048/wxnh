@@ -40,6 +40,29 @@ class MenuController extends AdminSet{
         }
         $this->renderPartial('index',array("models"=>$models));
     }
+
+    /**
+     * 获取菜单列表
+     */
+    public function actionDget()
+    {
+        $msg = $this->msgcode();
+        $ret = new Wxcore(Yii::app()->params['weixin']);
+        $bl = $ret->getMenu();
+        if($bl)
+        {
+            $bl = json_decode($bl,true);
+            $msg['code'] = 0;
+            $msg['data'] = $bl;
+        }
+        echo json_encode($msg);
+    }
+
+    public function actionShow()
+    {
+        $this->renderPartial('show');
+    }
+
     /**
      * 获取菜单列表
      */
@@ -244,6 +267,26 @@ class MenuController extends AdminSet{
         }
         echo json_encode($msg);
     }
+
+
+
+    /**
+     * 设置微信菜单
+     */
+    public function actionDset()
+    {
+        $msg = $this->msgcode();
+        $menu = Yii::app()->request->getParam('menu',"");
+        $ret = new Wxcore(Yii::app()->params['weixin']);
+        $msg['data'] = $menu;
+        $bl = $ret->createMenu($menu);
+        if($bl)
+        {
+            $msg["code"] = 0;
+        }
+        echo json_encode($msg);
+    }
+
 }
 
 ?>

@@ -77,7 +77,9 @@ $(function(){
                             <li><a>系统设置</a>
 								<ul>
 									<li><a href="<?php echo Yii::app()->createAbsoluteUrl('menu/index'); ?>" target="navTab" rel="menuset">微信菜单设置</a></li>
-								</ul>
+                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('menu/show'); ?>" target="navTab" rel="menushow">微信菜单顺序</a></li>
+
+                                </ul>
 							</li>
 
 						</ul>
