@@ -84,8 +84,13 @@ class RedisTmp extends CActiveRecord
 
     public static function setex($key, $val)
     {
-        $model = new RedisTmp();
-        $model->key = $key;
+
+        $model = RedisTmp::model()->findByPk($key);
+        if(empty($model))
+        {
+            $model = new RedisTmp();
+            $model->key = $key;
+        }
         $model->value = $val;
         $model->save();
     }
