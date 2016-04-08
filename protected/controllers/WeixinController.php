@@ -115,10 +115,9 @@ class WeixinController extends CController{
                 $xml = $this->weixin->outputText("您已验证通过，请点击“面试查询”查看面试结果吧！");
             }else
             {
-                $rds = Yii::app()->redis->getClient();
-                $rds->del($openid);
+                RedisTmp::model()->deleteByPk($openid);
                 $xml = $this->weixin->outputText("请输入您简历上所填写的手机号，提交后不能更改");
-                $rds->setex($openid,600,1);
+                RedisTmp::setex($openid,1);
             }
         }elseif("emp-ms"==$this->weixin->_postData->EventKey)
         {
@@ -257,6 +256,13 @@ class WeixinController extends CController{
         $str = substr(md5(time()), 0, $length);
         return $str;
     }
+
+    public function getPk($id)
+    {
+        $model = RedisTmp::model()->findByPk($id);
+        return $model->value;
+    }
+
     /**
      * 绑定用户邮箱
      * @param string $str 用户回复的内容
@@ -267,8 +273,7 @@ class WeixinController extends CController{
         $xml = "";
         $openid = $this->weixin->_postData->FromUserName . "";
         //开启redis
-        $rds = Yii::app()->redis->getClient();
-        $tmp = $rds->get($openid); //状态机
+        $tmp = $this->getPk($openid); //状态机
         //状态机为0-3标识处于 输入邮箱阶段
         if ($tmp >= 1&&$tmp<=3) {
             if(CheckInfo::phone($str))
@@ -280,19 +285,19 @@ class WeixinController extends CController{
                     if($pl->save())
                     {
                         $xml = $this->weixin->outputText("手机验证成功！请于面试次日9:00后点击“面试查询”查看面试结果吧！");
-                        $rds->del($openid);
+                        RedisTmp::model()->deleteByPk($openid);
                     }
                 }
             }else
             {
                 $xml = $this->weixin->outputText("号码格式错误，请重新输入");
                 $tmp++;
-                $rds->setex($openid, 600, $tmp);
+                RedisTmp::setex($openid,$tmp);
             }
         }elseif($tmp>3)
         {
             $xml = $this->weixin->outputText("号码格式错误次数过多，请重新点击绑定菜单");
-            $rds->del($openid);
+            RedisTmp::model()->deleteByPk($openid);
         }
         return $xml;
     }
