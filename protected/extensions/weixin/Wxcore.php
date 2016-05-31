@@ -15,12 +15,15 @@ class Wxcore {
     const QR_LIMIT_SCENE = 2;  //永久二维码
 
     private $_ACCESS_TOKEN = "";
+    const ACCESS_TOKEN = "access_token";
     /**
      * 构造函数，初始化认证参数。需要用到redis缓存。
      * @param Array $wx 包含微信接口调用的3个参数，在yii配置文件中查看。
      */
     public function __construct($wx) {
-        $this->_ACCESS_TOKEN = Yii::app()->redis->getClient()->get("access_token");
+
+        $md = RedisTmp::model()->findByPk($this::ACCESS_TOKEN);
+        $this->_ACCESS_TOKEN = empty($md)?'':$md->value;
         if(empty($this->_ACCESS_TOKEN))
         {
             //微信认证参数获取接口，该认证参数30分钟失效
@@ -30,7 +33,7 @@ class Wxcore {
             if (!array_key_exists('errcode', $ret)) {
                 $this->_ACCESS_TOKEN = $ret['access_token']; 
                 //微信官方最长时间为7200秒
-                Yii::app()->redis->getClient()->setex("access_token",7000,$ret['access_token']);
+                RedisTmp::setex($this::ACCESS_TOKEN,$this->_ACCESS_TOKEN);
             }
         }
     }
