@@ -24,7 +24,7 @@ class Wxcore {
 
         $md = RedisTmp::model()->findByPk($this::ACCESS_TOKEN);
         $this->_ACCESS_TOKEN = empty($md)?'':$md->value;
-        if(empty($this->_ACCESS_TOKEN))
+        if(true)
         {
             //微信认证参数获取接口，该认证参数30分钟失效
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $wx['APPID'] . "&secret=" . $wx['APPSECRET'];

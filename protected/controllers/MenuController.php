@@ -53,7 +53,7 @@ class MenuController extends AdminSet{
         {
             $bl = json_decode($bl,true);
             $msg['code'] = 0;
-            $msg['data'] = $bl;
+            $msg['data'] = $bl['menu'];
         }
         echo json_encode($msg);
     }
