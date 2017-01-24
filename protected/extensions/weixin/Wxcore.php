@@ -104,7 +104,7 @@ class Wxcore {
      * @return true or false
      */
     public function createMenu($menu) {
-        
+
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" . $this->_ACCESS_TOKEN;
         $content = $this->curl_post($url, $menu);
         $ret = json_decode($content, true);
@@ -115,6 +115,27 @@ class Wxcore {
         }
     }
 
+
+    public function getJs() {
+        $md = RedisTmp::model()->findByPk('ticket');
+        if(empty($md)||(time() - $md->time)>1700)
+        {
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$this->_ACCESS_TOKEN."&type=jsapi";
+            $content = $this->http_request($url);
+            $ret = json_decode($content, true);
+            $ticket = $ret['ticket'];
+        }else
+        {
+            $ticket = $md->value;
+        }
+
+        return [
+            'ticket' => $ticket,
+            'token' => $this->_ACCESS_TOKEN
+        ];
+
+
+    }
     /**
      * 获取当前菜单样式
      * @return menu in json,or false

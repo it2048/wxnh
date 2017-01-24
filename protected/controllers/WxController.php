@@ -20,12 +20,29 @@ class WxController extends CController
 
     public function actionGetToken()
     {
+
+        $url = isset($_GET['url'])?$_GET['url']:'';
         $arr = array(
             'APPID'=>'wxd1fcf01a5ba07668',   //微信官方给的，有这个才能用牛逼功能
-            'APPSECRET'=>'4fb5940d27b44f978eb24d09b486f3b5'  //微信官方给的，有这个才能用牛逼功能
+            'APPSECRET'=>''  //微信官方给的，有这个才能用牛逼功能
         );
-
         $ret = new Wxcore($arr);
+        $rtn = $ret->getJs();
+
+        $rtn['noncestr'] = "Wm3WZYTPz0wzccnW";
+        $rtn['timestamp'] = time();
+
+        $shaa = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%d&url=%s",
+            $rtn['ticket'],
+            $rtn['noncestr'],$rtn['timestamp'],$url);
+        $shaa = sha1($shaa);
+        echo json_encode([
+            'appId' => $arr['APPID'],
+            'timestamp' => $rtn['timestamp'],
+            'nonceStr' => $rtn['noncestr'],
+            'signature' => $shaa
+        ]);
+
     }
 
 }

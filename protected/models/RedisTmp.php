@@ -37,7 +37,8 @@ class RedisTmp extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('time', 'numerical', 'integerOnly'=>true),
-			array('key, value', 'length', 'max'=>128),
+			array('key', 'length', 'max'=>128),
+            array('value', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('key, value, time', 'safe', 'on'=>'search'),
