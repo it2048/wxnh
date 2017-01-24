@@ -23,18 +23,20 @@ class Wxcore {
     public function __construct($wx) {
 
         $md = RedisTmp::model()->findByPk($this::ACCESS_TOKEN);
-        $this->_ACCESS_TOKEN = empty($md)?'':$md->value;
-        if(true)
+        if(empty($md)||(time() - $md->time)>1700)
         {
             //微信认证参数获取接口，该认证参数30分钟失效
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $wx['APPID'] . "&secret=" . $wx['APPSECRET'];
             $content = $this->http_request($url);
             $ret = json_decode($content, true);
             if (!array_key_exists('errcode', $ret)) {
-                $this->_ACCESS_TOKEN = $ret['access_token']; 
+                $this->_ACCESS_TOKEN = $ret['access_token'];
                 //微信官方最长时间为7200秒
                 RedisTmp::setex($this::ACCESS_TOKEN,$this->_ACCESS_TOKEN);
             }
+        }else
+        {
+            $this->_ACCESS_TOKEN = $md->value;
         }
     }
 
