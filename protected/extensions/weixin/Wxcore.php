@@ -20,9 +20,9 @@ class Wxcore {
      * 构造函数，初始化认证参数。需要用到redis缓存。
      * @param Array $wx 包含微信接口调用的3个参数，在yii配置文件中查看。
      */
-    public function __construct($wx) {
+    public function __construct($wx,$ft='') {
 
-        $md = RedisTmp::model()->findByPk($this::ACCESS_TOKEN);
+        $md = RedisTmp::model()->findByPk($this::ACCESS_TOKEN.$ft);
         if(empty($md)||(time() - $md->time)>1700)
         {
             //微信认证参数获取接口，该认证参数30分钟失效
@@ -32,7 +32,7 @@ class Wxcore {
             if (!array_key_exists('errcode', $ret)) {
                 $this->_ACCESS_TOKEN = $ret['access_token'];
                 //微信官方最长时间为7200秒
-                RedisTmp::setex($this::ACCESS_TOKEN,$this->_ACCESS_TOKEN);
+                RedisTmp::setex($this::ACCESS_TOKEN.$ft,$this->_ACCESS_TOKEN);
             }
         }else
         {
@@ -116,14 +116,16 @@ class Wxcore {
     }
 
 
-    public function getJs() {
-        $md = RedisTmp::model()->findByPk('ticket');
+    public function getJs($dx) {
+        $md = RedisTmp::model()->findByPk('ticket'.$dx);
         if(empty($md)||(time() - $md->time)>1700)
         {
             $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$this->_ACCESS_TOKEN."&type=jsapi";
             $content = $this->http_request($url);
             $ret = json_decode($content, true);
             $ticket = $ret['ticket'];
+            RedisTmp::setex('ticket'.$dx,$ticket);
+
         }else
         {
             $ticket = $md->value;

@@ -20,14 +20,14 @@ class WxController extends CController
 
     public function actionGetToken()
     {
-
+        header("Access-Control-Allow-Origin: *");
         $url = isset($_GET['url'])?$_GET['url']:'';
         $arr = array(
-            'APPID'=>'wxd1fcf01a5ba07668',   //微信官方给的，有这个才能用牛逼功能
+            'APPID'=>'',   //微信官方给的，有这个才能用牛逼功能
             'APPSECRET'=>''  //微信官方给的，有这个才能用牛逼功能
         );
-        $ret = new Wxcore($arr);
-        $rtn = $ret->getJs();
+        $ret = new Wxcore($arr,'dx');
+        $rtn = $ret->getJs('dx');
 
         $rtn['noncestr'] = "Wm3WZYTPz0wzccnW";
         $rtn['timestamp'] = time();
@@ -42,7 +42,6 @@ class WxController extends CController
             'nonceStr' => $rtn['noncestr'],
             'signature' => $shaa
         ]);
-
     }
 
 }
