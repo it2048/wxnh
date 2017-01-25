@@ -42,6 +42,8 @@ class WxController extends CController
 
     public function actionUpVoice()
     {
+        header("Access-Control-Allow-Origin: *");
+
         $msg = ['code'=>1,'msg'=>'失败','data'=>null];
         $voice = Yii::app()->request->getParam('vid');
 
@@ -71,6 +73,8 @@ class WxController extends CController
      */
     public function actionGetVoice()
     {
+        header("Access-Control-Allow-Origin: *");
+
         $msg = ['code'=>1,'msg'=>'失败','data'=>null];
         $voice = Yii::app()->request->getParam('vid');
 
