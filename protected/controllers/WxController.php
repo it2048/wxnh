@@ -59,10 +59,20 @@ class WxController extends CController
                 $command = "/usr/local/bin/ffmpeg -i $file  $filename";
                 system($command,$error);
 
-                if(!file_exists($filename))
+                $cnt = 3;
+                while($cnt>0)
                 {
-                    usleep(100000);
+                    if(!file_exists($filename))
+                    {
+                        usleep(100000);
+                    }else
+                    {
+                        unlink($file);
+                        break;
+                    }
+                    $cnt--;
                 }
+
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
                     'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".mp3",
                     'vid' => $voice
