@@ -152,6 +152,11 @@ class Wxcore {
         }
     }
 
+    public function getMedia($id) {
+        $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$this->_ACCESS_TOKEN."&media_id=".$id;
+        $content = $this->http_request($url);
+        return $content;
+    }
     /**
      * 删除当前菜单
      * @return true or false
