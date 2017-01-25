@@ -25,7 +25,7 @@ class WxController extends CController
         $ret = new Wxcore(Yii::app()->params['yum'],'yum');
         $rtn = $ret->getJs('yum');
 
-        $rtn['noncestr'] = "Wm3WZYTPz0wzccnW";
+        $rtn['noncestr'] = "Wm3WZYTPzyumccnW";
         $rtn['timestamp'] = time();
 
         $shaa = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%d&url=%s",
