@@ -62,6 +62,7 @@ class WxController extends CController
                 $msg = ['code'=>2,'msg'=>'文件存储失败','data'=>$rtn];
             }
         }
+        $this->tlog($msg);
         echo json_encode($msg);
     }
 
@@ -87,6 +88,12 @@ class WxController extends CController
                 $msg = ['code'=>2,'msg'=>'录音文件不存在','data'=>null];
             }
         }
+        $this->tlog($msg);
         echo json_encode($msg);
+    }
+    private function tlog($msg){
+        $log = sprintf("voice-%d: url|%s rtn|%s tm:%s \r\n",$msg['code'],
+            Yii::app()->request->getUrl(),$msg['msg'],date('Y-m-d H:i:s'));
+        @file_put_contents(dirname(Yii::app()->basePath).'/t.log',$log,8);
     }
 }
