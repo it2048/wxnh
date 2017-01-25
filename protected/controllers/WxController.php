@@ -22,11 +22,7 @@ class WxController extends CController
     {
         header("Access-Control-Allow-Origin: *");
         $url = isset($_GET['url'])?$_GET['url']:'';
-        $arr = array(
-            'APPID'=>'',   //微信官方给的，有这个才能用牛逼功能
-            'APPSECRET'=>''  //微信官方给的，有这个才能用牛逼功能
-        );
-        $ret = new Wxcore($arr,'dx');
+        $ret = new Wxcore(Yii::app()->params['yum'],'dx');
         $rtn = $ret->getJs('dx');
 
         $rtn['noncestr'] = "Wm3WZYTPz0wzccnW";
@@ -37,11 +33,21 @@ class WxController extends CController
             $rtn['noncestr'],$rtn['timestamp'],$url);
         $shaa = sha1($shaa);
         echo json_encode([
-            'appId' => $arr['APPID'],
+            'appId' => Yii::app()->params['yum']['APPID'],
             'timestamp' => $rtn['timestamp'],
             'nonceStr' => $rtn['noncestr'],
             'signature' => $shaa
         ]);
+    }
+
+    public function actionUpVoice()
+    {
+        $id = Yii::app()->request->getParam('voice');
+        $ret = new Wxcore(Yii::app()->params['yum'],'dx');
+        $rtn = $ret->getMedia($id);
+
+        print_r($rtn);
+
     }
 
 }
