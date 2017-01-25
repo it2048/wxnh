@@ -50,11 +50,11 @@ class WxController extends CController
             $ret = new Wxcore(Yii::app()->params['yum'],'yum');
             $rtn = $ret->getMedia($voice);
 
-            $filename = dirname(Yii::app()->basePath).'/public/'.$voice.".amr";
+            $filename = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".amr";
             if(file_put_contents($filename,$rtn))
             {
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
-                    'url' => Yii::app()->request->hostInfo.'/public/'.$voice.".amr",
+                    'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".amr",
                     'vid' => $voice
                 ]];
             }else
@@ -76,11 +76,11 @@ class WxController extends CController
 
         if(!empty($voice) && strpos($voice,".") === false)
         {
-            $filename = dirname(Yii::app()->basePath).'/public/'.$voice.".amr";
+            $filename = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".amr";
             if(file_exists($filename))
             {
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
-                    'url' => Yii::app()->request->hostInfo.'/public/'.$voice.".amr",
+                    'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".amr",
                     'vid' => $voice
                 ]];
             }else
