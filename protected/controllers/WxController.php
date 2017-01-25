@@ -43,7 +43,7 @@ class WxController extends CController
     public function actionUpVoice()
     {
         $msg = ['code'=>1,'msg'=>'失败','data'=>null];
-        $voice = Yii::app()->request->getParam('voice');
+        $voice = Yii::app()->request->getParam('vid');
 
         if(!empty($voice) && strpos($voice,".") === false)
         {
@@ -65,16 +65,29 @@ class WxController extends CController
         echo json_encode($msg);
     }
 
-    //根据URL地址，下载文件
-    private function downAndSaveFile($url,$savePath){
-        ob_start();
-        readfile($url);
-        $img  = ob_get_contents();
-        ob_end_clean();
-        $size = strlen($img);
-        $fp = fopen($savePath, 'a');
-        fwrite($fp, $img);
-        fclose($fp);
-    }
+    /**
+     * 获取录音
+     */
+    public function actionGetVoice()
+    {
+        $msg = ['code'=>1,'msg'=>'失败','data'=>null];
+        $voice = Yii::app()->request->getParam('vid');
 
+        if(!empty($voice) && strpos($voice,".") === false)
+        {
+
+            $filename = dirname(Yii::app()->basePath).'/public/'.$voice.".amr";
+            if(file_exists($filename))
+            {
+                $msg = ['code'=>0,'msg'=>'成功','data'=>[
+                    'url' => Yii::app()->request->hostInfo.'/public/'.$voice.".amr",
+                    'vid' => $voice
+                ]];
+            }else
+            {
+                $msg = ['code'=>2,'msg'=>'录音文件不存在','data'=>null];
+            }
+        }
+        echo json_encode($msg);
+    }
 }
