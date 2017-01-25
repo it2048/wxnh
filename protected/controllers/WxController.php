@@ -22,8 +22,8 @@ class WxController extends CController
     {
         header("Access-Control-Allow-Origin: *");
         $url = isset($_GET['url'])?$_GET['url']:'';
-        $ret = new Wxcore(Yii::app()->params['yum'],'dx');
-        $rtn = $ret->getJs('dx');
+        $ret = new Wxcore(Yii::app()->params['yum'],'yum');
+        $rtn = $ret->getJs('yum');
 
         $rtn['noncestr'] = "Wm3WZYTPz0wzccnW";
         $rtn['timestamp'] = time();
@@ -43,7 +43,7 @@ class WxController extends CController
     public function actionUpVoice()
     {
         $id = Yii::app()->request->getParam('voice');
-        $ret = new Wxcore(Yii::app()->params['yum'],'dx');
+        $ret = new Wxcore(Yii::app()->params['yum'],'yum');
         $rtn = $ret->getMedia($id);
 
         print_r($rtn);
