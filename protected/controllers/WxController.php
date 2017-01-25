@@ -52,9 +52,12 @@ class WxController extends CController
             $ret = new Wxcore(Yii::app()->params['yum'],'yum');
             $rtn = $ret->getMedia($voice);
 
-            $filename = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".amr";
-            if(file_put_contents($filename,$rtn))
+            $file = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".amr";
+            $filename = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".mp3";
+            if(file_put_contents($file,$rtn))
             {
+                $command = "/usr/local/bin/ffmpeg -i $file  $filename";
+                system($command,$error);
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
                     'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".amr",
                     'vid' => $voice
