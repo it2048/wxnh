@@ -58,8 +58,13 @@ class WxController extends CController
             {
                 $command = "/usr/local/bin/ffmpeg -i $file  $filename";
                 system($command,$error);
+
+                if(!file_exists($filename))
+                {
+                    sleep(1);
+                }
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
-                    'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".amr",
+                    'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".mp3",
                     'vid' => $voice
                 ]];
             }else
@@ -83,11 +88,11 @@ class WxController extends CController
 
         if(!empty($voice) && strpos($voice,".") === false)
         {
-            $filename = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".amr";
+            $filename = dirname(Yii::app()->basePath).'/public/voi/'.$voice.".mp3";
             if(file_exists($filename))
             {
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
-                    'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".amr",
+                    'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".mp3",
                     'vid' => $voice
                 ]];
             }else
