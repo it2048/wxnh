@@ -42,9 +42,9 @@ class WxController extends CController
 
     public function actionUpVoice()
     {
-        $id = Yii::app()->request->getParam('voice');
+        $voice = Yii::app()->request->getParam('voice');
         $ret = new Wxcore(Yii::app()->params['yum'],'yum');
-        $rtn = $ret->getMedia($id);
+        $rtn = $ret->getMedia($voice);
 
         print_r($rtn);
 
