@@ -61,7 +61,7 @@ class WxController extends CController
 
                 if(!file_exists($filename))
                 {
-                    sleep(1);
+                    usleep(100000);
                 }
                 $msg = ['code'=>0,'msg'=>'成功','data'=>[
                     'url' => Yii::app()->request->hostInfo.'/wx/public/voi/'.$voice.".mp3",
