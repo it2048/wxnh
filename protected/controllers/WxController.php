@@ -75,7 +75,6 @@ class WxController extends CController
 
         if(!empty($voice) && strpos($voice,".") === false)
         {
-
             $filename = dirname(Yii::app()->basePath).'/public/'.$voice.".amr";
             if(file_exists($filename))
             {
